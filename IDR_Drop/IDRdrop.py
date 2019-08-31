@@ -2,7 +2,6 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import cx_Oracle
 import os
 
 #function to show top n files in directory sorted by date modified
@@ -30,7 +29,7 @@ def show_dir(path, n):
 
 #function to take file from EPO in readdir of meters in utility
 #splits a downloaded csv from EPO into raw meter IDR files
-def raw_split(filedf, readdir, writedir):
+def raw_split(filedf, readdir, writedir, utility):
 
     account = filedf.Account.unique()
     fail = []
@@ -40,7 +39,7 @@ def raw_split(filedf, readdir, writedir):
     for name in account:
         sub = filedf.loc[filedf.Account == name,:].reset_index(drop = True)
 
-        acct_id = acct_from_LDC(str(name).split(' ')[0])
+        acct_id = '_'.join([name, utility])
         
         write_name = ''.join([acct_id, "_IDR_RAW.csv"])
         
@@ -96,38 +95,6 @@ def mindthegap(df, filename, LB, UB):
             #print(round(1 - p_nzero, 4), "percent zeros, ", filename, " saved.")
             df.to_csv(filename, sep = ",", header = True, index = False)
 
-def acct_from_LDC(acct):
-    
-    uid = 'tesi_interface'
-    pwd = 'peint88'
-
-    ip = '172.25.152.125'
-    port = '1700'
-    service_name = 'tppe.mytna.com'
-    dsn = cx_Oracle.makedsn(ip, port, service_name=service_name)
-   
-    con = cx_Oracle.connect(user = uid, password = pwd, dsn = dsn)
-    cur = con.cursor()
-    query = "select distinct B.AccountID from pwrline.acctservicehist D, pwrline.account B  where B.name like '%" + str(acct) + "%' and D.marketcode = 'NEPOOL'"
-    cur.execute(query)
-    
-    try:
-        for result in cur:
-            acct_id = result[0].split('NEPOOL_')[1]
-        
-            market = acct_id.split('_')[0]
-            ldc = acct_id.split('_')[1:]
-            if len(ldc) > 1:
-                ldc = '_'.join(ldc)
-        
-            new_id = '_'.join([ldc, market])
-        
-        return(new_id)
-    
-    except:
-        print('error pulling name for {}.'.format(acct))
-        new_id = acct.split(' ')[0]
-        return(new_id)
     
 
 #function to turn raw IDR into cleaned IDR file

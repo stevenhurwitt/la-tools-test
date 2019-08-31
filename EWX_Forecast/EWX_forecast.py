@@ -35,6 +35,49 @@ def sortdir(filepath, num):
     print(filedf.head(num))
     return(filedf.head(num))
 
+def json_parse_csv(file):
+    
+    with open(file) as raw:
+        print("loading json...")
+        data = json.load(raw) #raw json file
+        acct = data['account'] #get account data
+        ch3 = acct['timeseriesdataidr'] #dictionary of acct attributes
+        n = len(ch3)
+        
+        reads = ch3[0]['reads']
+        master_df = pd.DataFrame.from_dict(reads)
+        
+        print('found ', n, 'reads, creating dataset.')
+        
+        filename = file.split('_')[1:]
+        filename = '_'.join(filename)
+        filename = filename.replace('.json', '.csv')
+        
+        reads = ch3[0]['reads']
+        master_df = pd.DataFrame.from_dict(reads)
+        
+        print('found ', n, 'reads, creating dataset.')
+        
+        for i in range(1,n):
+            reads = ch3[i]['reads']
+            temp = pd.DataFrame.from_dict(reads)
+            
+            tempname = "_".join([filename.split('.')[0], 'year', str(i), '.csv'])
+            #print('writing {}'.format(tempname))
+            
+            #temp.to_csv(tempname, header = True, index = False)
+            master_df = pd.concat([master_df, temp]).reset_index(drop = True)
+        
+        print(master_df.head())
+        print(master_df.tail())
+        
+    
+        print("saving to dataframe...")
+    
+    print('writing file to csv')
+    master_df.to_csv(filename, sep = ",", header = True, index = False)
+    return(master_df)
+
 def read_idr(filename, header_index):
     f = pd.read_csv(filename, header = header_index)
     f.columns = ['t', 'v']
