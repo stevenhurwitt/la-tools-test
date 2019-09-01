@@ -38,8 +38,9 @@ def raw_split(filedf, readdir, writedir, utility):
 
     for name in account:
         sub = filedf.loc[filedf.Account == name,:].reset_index(drop = True)
-
-        acct_id = '_'.join([name, utility])
+        
+        ldc = name.split(' ')[0]
+        acct_id = '_'.join([ldc, utility])
         
         write_name = ''.join([acct_id, "_IDR_RAW.csv"])
         
@@ -121,8 +122,7 @@ def data_drop(rawfile, readpath, writepath):
             except:
                 utility = item
                 break
-            
-        writepath = writepath + str(utility)
+          
         
         os.chdir(writepath)
 
@@ -174,3 +174,20 @@ def data_drop(rawfile, readpath, writepath):
             clean_file = rawfile.replace("_RAW", "")
             #print("writing single channel data...")
             mindthegap(clean_data, clean_file, .4, .7)
+
+def hor_to_vert(file):
+    
+    f = pd.read_csv(file)
+    hrs = f.columns[4:]
+    new_f = f.melt(id_vars = 'Date', value_vars = hrs)
+    dt_ind = new_f['Date'] + ' ' + new_f['variable']
+    new_f.drop(['Date', 'variable'], axis = 1, inplace = True)
+    
+    new_dt = [a.replace('24:00', '00:00') for a in dt_ind]
+    new_f.set_index(pd.to_datetime(new_dt), drop = True, inplace = True)
+    new_f.sort_index(axis = 0, inplace = True)
+    
+    og = file.split('.')
+    new_name = ''.join([og[0], '_vert', '.csv'])
+    new_f.to_csv(new_name, header = None)
+    print('transformed and wrote {} to {}.'.format(file, new_name))
