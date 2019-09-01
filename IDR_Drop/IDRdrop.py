@@ -122,8 +122,7 @@ def data_drop(rawfile, readpath, writepath):
             except:
                 utility = item
                 break
-            
-        writepath = writepath + str(utility)
+          
         
         os.chdir(writepath)
 
