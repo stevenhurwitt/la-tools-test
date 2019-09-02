@@ -70,24 +70,24 @@ def bodies_json(bodies):
 def logon(username, pw, ngrid):
 
     opts = Options()
-    opts.headless = True
+    #opts.headless = True
     opts.add_argument('--ignore-certificate-errors')
     opts.add_argument('--start-maximized')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--disable-dev-shm-usage')
     opts.binary_location = '/usr/bin/google-chrome'
     prefs = {
-                'download.default_directory': '/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads',
+                'download.default_directory': '/Users/stevenhurwitt/la-tools-test/IDR_Drop/Downloads',
                 'download.prompt_for_download': False,
                 'download.directory_upgrade': True,
                 'safebrowsing.enabled': False,
                 'safebrowsing.disable_download_protection': True}
     #prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads/", "directory_upgrade": True}
     opts.add_experimental_option("prefs", prefs)
-    assert opts.headless
+    #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/usr/local/share/chromedriver', options = opts)
+    browser = Chrome(executable_path = '/Users/stevenhurwitt/chromedriver', options = opts)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'
@@ -143,7 +143,7 @@ def logon(username, pw, ngrid):
     
     return(browser, url)
 
-def idr_download(row):
+def idr_download(row, good):
 
     ngrid = ('SUEZ' in good.user[row])
     browser, url = logon(good.user[row], good.pw[row], ngrid)
