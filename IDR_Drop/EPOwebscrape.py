@@ -77,7 +77,7 @@ def logon(username, pw, ngrid):
     opts.add_argument('--disable-dev-shm-usage')
     #opts.binary_location = '/usr/bin/google-chrome'
     prefs = {
-                'download.default_directory': '/Users/stevenhurwitt/IDR_Drop/Downloads',
+                'download.default_directory': '/Users/stevenhurwitt/la-tools-test/IDR_Drop/Downloads',
                 'download.prompt_for_download': False,
                 'download.directory_upgrade': True,
                 'safebrowsing.enabled': False,
@@ -188,8 +188,12 @@ def idr_download(row, good):
 def export_data(list_of_4, browser, ngrid):
     
     if (len(list_of_4) > 1) and ngrid == False:
-    for item in list_of_4:
-        check_the_box(item, browser)
+        for item in list_of_4:
+            check_the_box(item, browser)
+            
+    elif ngrid == True:
+        for item in list_of_4:
+            check_the_box(item, browser)
     
     browser.execute_script('''document.frmEPO.button.value='export'; document.frmEPO.submit();''')
 
