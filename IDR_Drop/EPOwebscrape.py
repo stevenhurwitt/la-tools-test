@@ -144,7 +144,7 @@ def idr_download(row):
     print('logging on...')
 
     accts_to_find = good.accts[row]
-    print('looking for {}, accts {}.'.format(good.name[row], good.accts[row]))
+    print('looking for accts {}.'.format(good.accts[row]))
     AIDs = []
 
     soup = BeautifulSoup(browser.page_source)
