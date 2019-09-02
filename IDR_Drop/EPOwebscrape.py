@@ -73,8 +73,8 @@ def logon(username, pw, ngrid):
     #opts.headless = True
     opts.add_argument('--ignore-certificate-errors')
     opts.add_argument('--start-maximized')
-    opts.addArguments("--no-sandbox")
-    opts.addArguments("--disable-dev-shm-usage")
+    opts.add_argument('--no-sandbox')
+    opts.add_argument('--disable-dev-shm-usage')
     prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads", "directory_upgrade": True}
     opts.add_experimental_option("prefs", prefs)
     #assert opts.headless
