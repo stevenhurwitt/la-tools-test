@@ -73,13 +73,12 @@ def logon(username, pw, ngrid):
     #opts.headless = True
     opts.add_argument('--ignore-certificate-errors')
     opts.add_argument('--start-maximized')
-    prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "C:\\Users\\wb5888\\Python Code\\IDR_Drop\\Downloads\\", "directory_upgrade": True}
+    prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads", "directory_upgrade": True}
     opts.add_experimental_option("prefs", prefs)
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    #browser = Chrome(executable_path = 'C:\\Users\\wb5888\\chromedriver.exe', options = opts)
-    browser = Chrome(executable_path = '/Users/stevenhurwitt/chromedriver', options = opts)
+    browser = Chrome(executable_path = '/home/jupyter-engiela/la-tools-test/IDR_Drop/chromedriver', options = opts)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'
