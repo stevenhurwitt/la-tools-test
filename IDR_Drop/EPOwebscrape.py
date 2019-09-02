@@ -134,7 +134,7 @@ def logon(username, pw, ngrid):
     
     return(browser, url)
 
-def idr_download(row):
+def idr_download(row, good):
 
     ngrid = ('SUEZ' in good.user[row])
     browser, url = logon(good.user[row], good.pw[row], ngrid)
