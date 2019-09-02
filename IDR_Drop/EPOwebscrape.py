@@ -76,7 +76,13 @@ def logon(username, pw, ngrid):
     opts.add_argument('--no-sandbox')
     opts.add_argument('--disable-dev-shm-usage')
     opts.binary_location = '/usr/bin/google-chrome'
-    prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads/", "directory_upgrade": True}
+    prefs = {
+                'download.default_directory': '/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads',
+                'download.prompt_for_download': False,
+                'download.directory_upgrade': True,
+                'safebrowsing.enabled': False,
+                'safebrowsing.disable_download_protection': True}
+    #prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads/", "directory_upgrade": True}
     opts.add_experimental_option("prefs", prefs)
     assert opts.headless
 
