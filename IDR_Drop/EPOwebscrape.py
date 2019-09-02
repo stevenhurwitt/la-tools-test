@@ -75,9 +75,9 @@ def logon(username, pw, ngrid):
     opts.add_argument('--start-maximized')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--disable-dev-shm-usage')
-    opts.binary_location = '/usr/bin/google-chrome'
+    #opts.binary_location = '/usr/bin/google-chrome'
     prefs = {
-                'download.default_directory': '/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads',
+                'download.default_directory': '/Users/stevenhurwitt/IDR_Drop/Downloads',
                 'download.prompt_for_download': False,
                 'download.directory_upgrade': True,
                 'safebrowsing.enabled': False,
@@ -87,7 +87,7 @@ def logon(username, pw, ngrid):
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/usr/local/share/chromedriver', options = opts)
+    browser = Chrome(executable_path = '/Users/stevenhurwitt/chromedriver', options = opts)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'
@@ -176,17 +176,19 @@ def idr_download(row, good):
         for aid in aid_list:
             final.append(aid)
 
-    n = 5
+    n = 4
     final2 = [final[i * n:(i + 1) * n] for i in range((len(final) + n - 1) // n )]  
     final2
 
+    browser.implicitly_wait(2)
     for elem in final2:
-        export_data(elem, browser)
+        export_data(elem, browser, ngrid)
         print('exported {}.'.format(elem))
 
-def export_data(list_of_5, browser):
+def export_data(list_of_4, browser, ngrid):
     
-    for item in list_of_5:
+    if (len(list_of_4) > 1) and ngrid == False:
+    for item in list_of_4:
         check_the_box(item, browser)
     
     browser.execute_script('''document.frmEPO.button.value='export'; document.frmEPO.submit();''')
@@ -224,5 +226,5 @@ def export_data(list_of_5, browser):
     browser.back()
     browser.back()
     
-    for item in list_of_5:
+    for item in list_of_4:
         check_the_box(item, browser)
