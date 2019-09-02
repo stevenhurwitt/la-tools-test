@@ -39,7 +39,7 @@ def raw_split(filedf, readdir, writedir, utility):
     for name in account:
         sub = filedf.loc[filedf.Account == name,:].reset_index(drop = True)
         
-        ldc = name.split(' ')[0]
+        ldc = str(name).split(' ')[0]
         acct_id = '_'.join([ldc, utility])
         
         write_name = ''.join([acct_id, "_IDR_RAW.csv"])
@@ -72,12 +72,12 @@ def filemerge(df1, df2):
     if fd1 < fd2:
         new_dat = pd.concat([df1, df2], ignore_index = True)
         date_count = new_dat.groupby('Date').agg('count').sum(axis = 1)
-        print('spot check output file at date ', date_count.idxmax())
+        print('spot check output file at date {}.'.format(date_count.idxmax()))
     
     elif fd1 > fd2:
         new_dat = pd.concat([df2, df1], ignore_index = True)
         date_count = new_dat.groupby('Date').agg('count').sum(axis = 1)
-        print('spot check output file at date ', date_count.idxmax())
+        print('spot check output file at date: {}.'.format(date_count.idxmax()))
         
     return new_dat
 

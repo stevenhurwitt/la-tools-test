@@ -88,7 +88,7 @@ def logon(username, pw, ngrid):
     assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/usr/local/share/chromedriver', options = opts)
+    browser = Chrome(executable_path = '/Users/stevenhurwitt/chromedriver', options = opts)
     
     browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
     params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_path}}
@@ -181,18 +181,24 @@ def idr_download(row, good):
         for aid in aid_list:
             final.append(aid)
 
-    n = 5
+    n = 4
     final2 = [final[i * n:(i + 1) * n] for i in range((len(final) + n - 1) // n )]  
     final2
 
+    browser.implicitly_wait(2)
     for elem in final2:
-        export_data(elem, browser)
+        export_data(elem, browser, ngrid)
         print('exported {}.'.format(elem))
 
-def export_data(list_of_5, browser):
+def export_data(list_of_4, browser, ngrid):
     
-    for item in list_of_5:
-        check_the_box(item, browser)
+    if (len(list_of_4) > 1) and ngrid == False:
+        for item in list_of_4:
+            check_the_box(item, browser)
+            
+    elif ngrid == True:
+        for item in list_of_4:
+            check_the_box(item, browser)
     
     browser.execute_script('''document.frmEPO.button.value='export'; document.frmEPO.submit();''')
 
@@ -230,5 +236,5 @@ def export_data(list_of_5, browser):
     browser.back()
     browser.back()
     
-    for item in list_of_5:
+    for item in list_of_4:
         check_the_box(item, browser)
