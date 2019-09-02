@@ -70,7 +70,7 @@ def bodies_json(bodies):
 def logon(username, pw, ngrid):
 
     opts = Options()
-    opts.headless = True
+    opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--ignore-certificate-errors')
     opts.add_argument('--start-maximized')
@@ -88,11 +88,14 @@ def logon(username, pw, ngrid):
     assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/Users/stevenhurwitt/chromedriver', options = opts)
+    browser = Chrome(executable_path = '/usr/local/share/chromedriver', options = opts)
     
-    browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
-    params = {'cmd': 'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_path}}
-    command_result = browser.execute("send_command", params)
+    def enable_download_headless(browser,download_dir):
+        browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
+        params = {'cmd':'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_dir}}
+        browser.execute("send_command", params)
+    
+    enable_download_headless(browser, download_path)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'
