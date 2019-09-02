@@ -78,7 +78,7 @@ def logon(username, pw, ngrid):
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/home/jupyter-engiela/la-tools-test/IDR_Drop/chromedriver', options = opts)
+    browser = Chrome(executable_path = '/usr/local/share/chromedriver', options = opts)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'
