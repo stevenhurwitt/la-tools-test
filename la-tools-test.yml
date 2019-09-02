@@ -1,0 +1,5 @@
+name: LA-TOOLS-TEST
+channels:
+  - defaults
+prefix: /home/jupyter-engiela/.conda/envs/LA-TOOLS-TEST
+
