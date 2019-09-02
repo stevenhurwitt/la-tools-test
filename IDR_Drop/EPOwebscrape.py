@@ -77,7 +77,7 @@ def logon(username, pw, ngrid):
     opts.add_argument('--disable-dev-shm-usage')
     opts.binary_location = '/usr/bin/google-chrome'
     prefs = {
-                'download.default_directory': '/Users/stevenhurwitt/la-tools-test/IDR_Drop/Downloads',
+                'download.default_directory': '/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads',
                 'download.prompt_for_download': False,
                 'download.directory_upgrade': True,
                 'safebrowsing.enabled': False,
@@ -87,7 +87,7 @@ def logon(username, pw, ngrid):
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/Users/stevenhurwitt/chromedriver', options = opts)
+    browser = Chrome(executable_path = '/usr/local/share/chromedriver', options = opts)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'
