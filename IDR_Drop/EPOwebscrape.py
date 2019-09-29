@@ -70,7 +70,7 @@ def bodies_json(bodies):
 def logon(username, pw, ngrid):
 
     opts = Options()
-    #opts.add_argument('--headless')
+    opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--ignore-certificate-errors')
     opts.add_argument('--start-maximized')
@@ -85,7 +85,7 @@ def logon(username, pw, ngrid):
                 'safebrowsing.disable_download_protection': True}
     #prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads/", "directory_upgrade": True}
     opts.add_experimental_option("prefs", prefs)
-    #assert opts.headless
+    assert opts.headless
 
     #setup headless browser, get ngrid url
     browser = Chrome(executable_path = '/usr/local/share/chromedriver', options = opts)
