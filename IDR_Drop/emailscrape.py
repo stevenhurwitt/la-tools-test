@@ -189,7 +189,7 @@ def ngrid_to_dict(body):
 def iter_mail(sender_func, mailbox, index):
     
     today = datetime.datetime.now()
-    last_day = today - datetime.timedelta(1)
+    last_day = today - datetime.timedelta(7)
     last_day
 
     last_day_str = last_day.strftime("%Y-%m-%d %H:%M:%S")
