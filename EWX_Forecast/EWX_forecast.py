@@ -75,7 +75,11 @@ def json_parse_csv(file):
         print("saving to dataframe...")
     
     print('writing file to csv')
+    master_df['t'] = pd.to_datetime(master_df.t)
+    master_df['v'] = pd.to_numeric(master_df.v)
+    master_df.set_index(['t'], inplace = True, drop = True)
     master_df.to_csv(filename, sep = ",", header = True, index = False)
+    
     return(master_df)
 
 def read_idr(filename, header_index):
