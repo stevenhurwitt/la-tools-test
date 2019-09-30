@@ -70,13 +70,13 @@ def bodies_json(bodies):
 def logon(username, pw, ngrid):
 
     opts = Options()
-    opts.add_argument('--headless')
+    #opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--ignore-certificate-errors')
     opts.add_argument('--start-maximized')
     opts.add_argument('--disable-dev-shm-usage')
-    opts.binary_location = '/usr/bin/google-chrome'
-    download_path = '/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads'
+    #opts.binary_location = '/usr/bin/google-chrome'
+    download_path = 'C:\\Users\\wb5888\\la-tools-test\\IDR_Drop\\Downloads'
     prefs = {
                 'download.default_directory': download_path,
                 'download.prompt_for_download': False,
@@ -85,17 +85,17 @@ def logon(username, pw, ngrid):
                 'safebrowsing.disable_download_protection': True}
     #prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads/", "directory_upgrade": True}
     opts.add_experimental_option("prefs", prefs)
-    assert opts.headless
+    #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/usr/local/share/chromedriver', options = opts)
+    browser = Chrome(executable_path = 'C:\\Users\\wb5888\\la-tools-test\\chromedriver', options = opts)
     
     def enable_download_headless(browser,download_dir):
         browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
         params = {'cmd':'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_dir}}
         browser.execute("send_command", params)
     
-    enable_download_headless(browser, download_path)
+    #enable_download_headless(browser, download_path)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'
