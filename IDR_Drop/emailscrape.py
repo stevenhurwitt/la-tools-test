@@ -342,6 +342,52 @@ def get_emails():
     #print(pretty_json)
     return master, json_name
     #https://docs.microsoft.com/en-us/office/vba/api/outlook.mailitem
+    
+def bodies_json(bodies):
+
+    test = pd.DataFrame.from_dict(bodies, orient = 'index')
+
+    if type(test.date[0]) == str:
+            test.date = pd.to_datetime(test.date)
+
+    accts_success = [len(accts) > 0 for accts in test.accts]
+    accts_fail = [not val for val in accts_success]
+        
+    good = test[accts_success].reset_index(drop = True)
+    util = []
+    
+    for i, a in enumerate(good.accts):
+        first_acct = a[0]
+        leading = a[0][:2]
+        
+        if leading == '80':
+            util.append('PSNH')
+            
+        elif leading == '51' and (len(first_acct.split('_')) > 1):
+            util.append('CLP')
+            
+        elif leading == '54' and (len(first_acct.split('_')) > 1):
+            util.append('WMECO')
+                
+        else:
+            if 'SUEZ' in good.user[i]:
+                util.append('NGRID')
+                
+            else:
+                util.append('NSTAR')
+            
+    good['util'] = util
+        
+
+    email_error = []
+
+    if len(accts_fail) > 0:
+        bad = test[accts_fail].reset_index()
+        mail_error = 'EMAIL_SCRAPE_ERROR.csv'
+
+        bad.to_csv(mail_error, header = True, index = False)
+
+    return(good)
 
 
 def main():
