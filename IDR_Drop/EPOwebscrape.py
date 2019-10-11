@@ -149,6 +149,9 @@ def logon(username, pw, ngrid):
     print('set to last ', lastndays.get_attribute('value'), ' days.')
     browser.execute_script("document.getElementById('LastNDays').focus();")
     
+    wait = ui.WebDriverWait(browser,10)
+    pass
+    
     return(browser, url)
 
 def idr_download(row, good):
@@ -233,7 +236,7 @@ def export_data(list_of_4, browser, ngrid):
     browser.implicitly_wait(20)
     link = browser.find_element_by_partial_link_text('Hourly Data File')
     link.click()
-    browswer.implicitly_wait(5)
+    browser.implicitly_wait(5)
     print('downloaded EPO data file.')
     
     browser.back()
