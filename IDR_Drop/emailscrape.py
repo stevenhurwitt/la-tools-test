@@ -1,18 +1,8 @@
-# # Email Scrape
-
-# Read in emails from outlook, store ones from utility EPO in dictionary, parse dictionary to get another dict of accounts, user-id, password.
-
 import win32com.client
-import datetime
+import pandas as pd
+import datetime as dt
 import pprint
 import json
-
-
-
-# ### Functions to Turn Messages to Dictionaries
-
-# In[41]:
-
 
 def flatten(l):
     out = []
@@ -27,12 +17,11 @@ def flatten(l):
 def clean_acct(acct):
     return ''.join(acct.split(' - '))
 
-#turn date string into datetime object
 def str_to_date(datestring):
-    return (datetime.datetime.strptime(str(datestring).split('+')[0],"%Y-%m-%d %H:%M:%S"))
+    return (dt.datetime.strptime(str(datestring).split('+')[0],"%Y-%m-%d %H:%M:%S"))
 
 def date_to_str(datetime_obj):
-    return (datetime.datetime.strftime(datetime_obj, format = '%m/%d/%Y %H:%M:%S'))
+    return (dt.datetime.strftime(datetime_obj, format = '%m/%d/%Y %H:%M:%S'))
 
 def Merge(dict1, dict2): 
     res = {**dict1, **dict2} 
@@ -76,6 +65,7 @@ def aaron_to_dict(body):
     accts_tup = ('accts', clean_accts)
     row = [user, pw, name, accts_tup]
     return row
+
 
 def admin_to_dict(body):
     
@@ -186,14 +176,8 @@ def ngrid_to_dict(body):
     row = [user, pw, name, accts]
     return(row)
 
-def iter_mail(sender_func, mailbox, index):
-    
-    today = datetime.datetime.now()
-    last_day = today - datetime.timedelta(7)
-    last_day
 
-    last_day_str = last_day.strftime("%Y-%m-%d %H:%M:%S")
-    last_day_str2 = last_day_str +"+00:00'"
+def iter_mail(sender_func, mailbox, index):
 
     print('scraping emails...')
     #start iterating through emails
@@ -271,8 +255,7 @@ def iter_mail(sender_func, mailbox, index):
 #         
 #             #.....
 
-# In[42]:
-
+#https://docs.microsoft.com/en-us/office/vba/api/outlook.mailitem
 
 def get_emails():
 
@@ -287,7 +270,7 @@ def get_emails():
     admin_filter = "[SenderEmailAddress] = 'epoadmin@eversource.com'"
     ngrid_filter = "[SenderEmailAddress] = 'michael.stanton@nationalgrid.com'"
 
-    today = datetime.datetime.now()
+    today = dt.datetime.now()
 
     aaron = messages.Restrict(aaron_filter)
     admin = messages.Restrict(admin_filter)
@@ -299,6 +282,8 @@ def get_emails():
     error = 0
     
     try:
+        print('parsing aaron.downing@eversource.com inbox')
+        print('')
         scrape, j2 = iter_mail(aaron_to_dict, aaron, j)
         
     except:
@@ -307,6 +292,8 @@ def get_emails():
         
     
     try:
+        print('parsing epoadmin@eversource.com')
+        print('')
         admin_scrape, j3 = iter_mail(admin_to_dict, admin, j2)
         master = Merge(scrape, admin_scrape)
         
@@ -316,14 +303,17 @@ def get_emails():
         master = {}
     
     try:
+        print('parsing michael.stanton@nationalgrid.com')
+        print('')
         ngrid_scrape, j4 = iter_mail(ngrid_to_dict, ngrid, j3)
         master = Merge(master, ngrid_scrape)
         
     except:
+        print('')
         print('error parsing ngrid')
         error += 1
         if error == 3:
-            quit
+            pass
     
 
     print('error with', error, 'of 3 inboxes')
@@ -341,7 +331,7 @@ def get_emails():
     
     #print(pretty_json)
     return master, json_name
-    #https://docs.microsoft.com/en-us/office/vba/api/outlook.mailitem
+ 
     
 def bodies_json(bodies):
 
@@ -387,7 +377,16 @@ def bodies_json(bodies):
 
         bad.to_csv(mail_error, header = True, index = False)
 
-    return(good)
+    return(good, bodies)
+
+
+def past_days(good, n):
+    
+    good['date'] = pd.to_datetime(good['date'])
+    past = dt.datetime.today() - dt.timedelta(days = 3)
+    past_good = good.iloc[[d > past for d in good.date],:]
+    past_good.reset_index(drop = True, inplace = True)
+    return(past_good)
 
 
 def main():
