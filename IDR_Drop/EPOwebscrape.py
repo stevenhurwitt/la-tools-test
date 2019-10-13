@@ -46,19 +46,39 @@ def bodies_json(bodies):
     if type(test.date[0]) == str:
             test.date = pd.to_datetime(test.date)
 
-    last_days = max(test.date) - dt.timedelta(7) 
-
-    sub = test[test.date > last_days]
-        
-    accts_success = [len(accts) > 0 for accts in sub.accts]
+    accts_success = [len(accts) > 0 for accts in test.accts]
     accts_fail = [not val for val in accts_success]
         
-    good = sub[accts_success].reset_index(drop = True)
+    good = test[accts_success].reset_index(drop = True)
+    util = []
+    
+    for i, a in enumerate(good.accts):
+        first_acct = a[0]
+        leading = a[0][:2]
+        
+        if leading == '80':
+            util.append('PSNH')
+            
+        elif leading == '51' and (len(first_acct.split('_')) > 1):
+            util.append('CLP')
+            
+        elif leading == '54' and (len(first_acct.split('_')) > 1):
+            util.append('WMECO')
+                
+        else:
+            if 'SUEZ' in good.user[i]:
+                util.append('NGRID')
+                
+            else:
+                util.append('NSTAR')
+            
+    good['util'] = util
+        
 
     email_error = []
 
     if len(accts_fail) > 0:
-        bad = sub[accts_fail].reset_index()
+        bad = test[accts_fail].reset_index()
         mail_error = 'EMAIL_SCRAPE_ERROR.csv'
 
         bad.to_csv(mail_error, header = True, index = False)
@@ -70,13 +90,13 @@ def bodies_json(bodies):
 def logon(username, pw, ngrid):
 
     opts = Options()
-    #opts.add_argument('--headless')
+    ##opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--ignore-certificate-errors')
     opts.add_argument('--start-maximized')
     opts.add_argument('--disable-dev-shm-usage')
-    #opts.binary_location = '/usr/bin/google-chrome'
-    download_path = 'C:\\Users\\wb5888\\la-tools-test\\IDR_Drop\\Downloads'
+    opts.binary_location = '/usr/bin/google-chrome-stable'
+    download_path = '/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads'
     prefs = {
                 'download.default_directory': download_path,
                 'download.prompt_for_download': False,
@@ -85,17 +105,17 @@ def logon(username, pw, ngrid):
                 'safebrowsing.disable_download_protection': True}
     #prefs ={"profile.default_content_settings.popups": 0, "download.default_directory": "/home/jupyter-engiela/la-tools-test/IDR_Drop/Downloads/", "directory_upgrade": True}
     opts.add_experimental_option("prefs", prefs)
-    #assert opts.headless
+    ##assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = 'C:\\Users\\wb5888\\la-tools-test\\chromedriver', options = opts)
+    browser = Chrome(executable_path = '/home/jupyter-engiela/la-tools-test/chromedriver', options = opts)
     
     def enable_download_headless(browser,download_dir):
         browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
         params = {'cmd':'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_dir}}
         browser.execute("send_command", params)
     
-    #enable_download_headless(browser, download_path)
+    enable_download_headless(browser, download_path)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'
@@ -233,7 +253,7 @@ def export_data(list_of_4, browser, ngrid):
     browser.implicitly_wait(20)
     link = browser.find_element_by_partial_link_text('Hourly Data File')
     link.click()
-    browswer.implicitly_wait(5)
+    browser.implicitly_wait(5)
     print('downloaded EPO data file.')
     
     browser.back()
