@@ -29,7 +29,7 @@ def show_dir(path, n):
 
 #function to take file from EPO in readdir of meters in utility
 #splits a downloaded csv from EPO into raw meter IDR files
-def raw_split(filedf, readdir, writedir, utility):
+def raw_split(filedf, readdir, writedir, utility, fname):
 
     account = filedf.Account.unique()
     fail = []
@@ -42,7 +42,9 @@ def raw_split(filedf, readdir, writedir, utility):
         ldc = str(name).split(' ')[0]
         acct_id = '_'.join([utility, ldc])
         
-        write_name = ''.join([acct_id, "_IDR_RAW.csv"])
+        #write_name = ''.join([acct_id, "_IDR_RAW.csv"])
+        
+        write_name = fname
         
         if write_name not in os.listdir(writedir):
             

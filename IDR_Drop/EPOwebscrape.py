@@ -7,12 +7,21 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
 from pandas.io.json import json_normalize
+import datetime as dt
 import json
 import os
 
+base = os.getcwd()
 
 # In[188]:
 
+def past_days(good, n):
+    
+    good['date'] = pd.to_datetime(good['date'])
+    past = dt.datetime.today() - dt.timedelta(days = 3)
+    past_good = good.iloc[[d > past for d in good.date],:]
+    past_good.reset_index(drop = True, inplace = True)
+    return(past_good)
 
 def acct_match(table_acct, str_acct):
     return((table_acct in str_acct) or (str_acct in table_acct))
@@ -168,6 +177,9 @@ def logon(username, pw, ngrid):
 
     print('set to last ', lastndays.get_attribute('value'), ' days.')
     browser.execute_script("document.getElementById('LastNDays').focus();")
+    
+    wait = ui.WebDriverWait(browser,10)
+    pass
     
     return(browser, url)
 
