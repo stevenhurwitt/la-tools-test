@@ -7,12 +7,21 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
 from pandas.io.json import json_normalize
+import datetime as dt
 import json
 import os
 
+base = os.getcwd()
 
 # In[188]:
 
+def past_days(good, n):
+    
+    good['date'] = pd.to_datetime(good['date'])
+    past = dt.datetime.today() - dt.timedelta(days = 3)
+    past_good = good.iloc[[d > past for d in good.date],:]
+    past_good.reset_index(drop = True, inplace = True)
+    return(past_good)
 
 def acct_match(table_acct, str_acct):
     return((table_acct in str_acct) or (str_acct in table_acct))
@@ -76,7 +85,7 @@ def logon(username, pw, ngrid):
     opts.add_argument('--start-maximized')
     opts.add_argument('--disable-dev-shm-usage')
     #opts.binary_location = '/usr/bin/google-chrome'
-    download_path = 'C:\\Users\\wb5888\\la-tools-test\\IDR_Drop\\Downloads'
+    download_path = os.path.join(base, 'Downloads')
     prefs = {
                 'download.default_directory': download_path,
                 'download.prompt_for_download': False,
@@ -88,14 +97,14 @@ def logon(username, pw, ngrid):
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = 'C:\\Users\\wb5888\\la-tools-test\\chromedriver', options = opts)
+    browser = Chrome(executable_path = os.path.join(base, 'chromedriver'), options = opts)
     
     def enable_download_headless(browser,download_dir):
         browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
         params = {'cmd':'Page.setDownloadBehavior', 'params': {'behavior': 'allow', 'downloadPath': download_dir}}
         browser.execute("send_command", params)
     
-    #enable_download_headless(browser, download_path)
+    enable_download_headless(browser, download_path)
     
     if ngrid == True:
         url = 'https://ngrid.epo.schneider-electric.com/ngrid/cgi/eponline.exe'

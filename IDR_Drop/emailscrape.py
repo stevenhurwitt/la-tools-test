@@ -380,14 +380,6 @@ def bodies_json(bodies):
     return(good, bodies)
 
 
-def past_days(good, n):
-    
-    good['date'] = pd.to_datetime(good['date'])
-    past = dt.datetime.today() - dt.timedelta(days = 3)
-    past_good = good.iloc[[d > past for d in good.date],:]
-    past_good.reset_index(drop = True, inplace = True)
-    return(past_good)
-
 
 def main():
     output_dict, filename = get_emails()
