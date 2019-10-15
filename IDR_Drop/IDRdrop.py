@@ -2,6 +2,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import ast
 import os
 
 #function to show top n files in directory sorted by date modified
@@ -29,7 +30,7 @@ def show_dir(path, n):
 
 #function to take file from EPO in readdir of meters in utility
 #splits a downloaded csv from EPO into raw meter IDR files
-def raw_split(filedf, readdir, writedir, utility, fname):
+def raw_split(filedf, readdir, writedir, utility, accts):
 
     account = filedf.Account.unique()
     fail = []
@@ -39,12 +40,16 @@ def raw_split(filedf, readdir, writedir, utility, fname):
     for name in account:
         sub = filedf.loc[filedf.Account == name,:].reset_index(drop = True)
         
-        ldc = str(name).split(' ')[0]
+        ldc_match = [(str(name) in a) for a in accts]
+        index = np.where(ldc_match)[0][0]
+        
+        
+        ldc = str(accts[index])
         acct_id = '_'.join([utility, ldc])
         
-        #write_name = ''.join([acct_id, "_IDR_RAW.csv"])
+        write_name = ''.join([acct_id, "_IDR_RAW.csv"])
         
-        write_name = fname
+        #write_name = fname
         
         if write_name not in os.listdir(writedir):
             
@@ -79,7 +84,17 @@ def filemerge(df1, df2):
     elif fd1 > fd2:
         new_dat = pd.concat([df2, df1], ignore_index = True)
         date_count = new_dat.groupby('Date').agg('count').sum(axis = 1)
-        print('spot check output file at date: {}.'.format(date_count.idxmax()))
+        maxd = date_count.idxmax()
+        
+        agg_dates = new_dat[new_dat.Date == maxd].iloc[:,4:].sum(axis = 0)
+        keep = np.where(new_dat.Date == maxd)[0][0]
+        drop = np.where(new_dat.Date == maxd)[0][1]
+        
+        new_dat.iloc[keep, 4:] = agg_dates
+        new_dat.drop_duplicates(['Date'], keep = 'first', inplace = True)
+        new_dat.reset_index(drop = True, inplace = True)
+        
+        print('overlap removed at {}, for file:'.format(maxd))
         
     return new_dat
 

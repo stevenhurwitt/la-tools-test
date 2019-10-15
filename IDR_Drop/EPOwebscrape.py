@@ -4,16 +4,42 @@ import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.keys import Keys
 import selenium.webdriver as webdriver
 from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 import pandas as pd
 import numpy as np
 from pandas.io.json import json_normalize
 import datetime as dt
 import json
+import math
+import ast
 import os
 
 base = os.getcwd()
 
-# In[188]:
+def read_logins(file):
+    good = pd.read_excel('email_bodies_10_11_2019.xlsx')
+    accts = [ast.literal_eval(a) for a in good.accts]
+    output = []
+
+    for i, row in enumerate(accts):
+        n = len(row)
+        groups = math.ceil(n // 4)
+        old_row = [('date', good.date[i]), ('name', good.name[i]), ('user', good.user[i]), ('pw', good.pw[i]), ('util', good.util[i])]
+    
+        if groups > 1:
+            for group in range(0, groups):
+                new_acct = ('accts', row[group*4:(group + 1)*4])
+                old_row.append(new_acct)
+            
+        else:
+            new_acct = ('accts', row)
+            old_row.append(new_acct)
+        
+        output.append(dict(old_row))
+        
+    output_df = pd.DataFrame(output)
+    output_df = output_df[['accts', 'date', 'name', 'user', 'pw', 'util']]
+    return(output_df)
 
 def past_days(good, n):
     
@@ -161,7 +187,6 @@ def logon(username, pw, ngrid):
     #sanity check
     print('user: ', user.get_attribute('value'))
     print('password: ', password.get_attribute('value'))
-    print('logging on...')
     login.click()
     browser.execute_script('''function submitlogin(event) {document.frmEPO.submit();}''' )
     wait = ui.WebDriverWait(browser,10)
@@ -190,10 +215,10 @@ def idr_download(row, good):
     print('logging on...')
 
     accts_to_find = good.accts[row]
-    print('looking for accts {}.'.format(good.accts[row]))
+    print('looking for {} accts.'.format(len(accts_to_find)))
     AIDs = []
 
-    soup = BeautifulSoup(browser.page_source)
+    soup = BeautifulSoup(browser.page_source, features = 'html5lib')
     table = soup.find('tbody', {'role' : 'rowgroup'})
     
     if table:
@@ -204,26 +229,16 @@ def idr_download(row, good):
 
     #get EPO AID value for every account
     print('trying search & download...')
+    print('')
     for accts in accts_to_find:
         results = big_match(accts, table)
-        AIDs.append(results)
-
-    #make list of AIDs, split into list of lists of 5
-    final = []
-    AIDs
-
-    for aid_list in AIDs:
-        for aid in aid_list:
-            final.append(aid)
-
-    n = 4
-    final2 = [final[i * n:(i + 1) * n] for i in range((len(final) + n - 1) // n )]  
-    final2
-
+        AIDs.append(results[0])
+ 
     browser.implicitly_wait(2)
-    for elem in final2:
-        export_data(elem, browser, ngrid)
-        print('exported {}.'.format(elem))
+    
+    file = export_data(AIDs, browser, ngrid)                      
+           
+    return(file)
 
 def export_data(list_of_4, browser, ngrid):
     
@@ -231,7 +246,8 @@ def export_data(list_of_4, browser, ngrid):
         for item in list_of_4:
             check_the_box(item, browser)
             
-    elif ngrid == True:
+            
+    elif (len(list_of_4) > 1) and ngrid == True:
         for item in list_of_4:
             check_the_box(item, browser)
     
@@ -240,12 +256,12 @@ def export_data(list_of_4, browser, ngrid):
     browser.implicitly_wait(20)
 
     
-    print('disabling demand...')
+    #print('disabling demand...')
     browser.execute_script('''function disabledemand() {if (document.frmEPO.demand) {
 		document.frmEPO.demand.disabled=true;
 		document.frmEPO.demand.checked=false;}}; disabledemand''')
             
-    print('selecting hourly interval...')
+    #print('selecting hourly interval...')
     browser.execute_script('''function setintervaltype() {if (document.frmEPO.demand && document.frmEPO.intervaltype[0]) {
 	if ( document.frmEPO.demand.checked == true ) {
 	if ( document.frmEPO.intervaltype[1].checked == true ) {alert("Convert to Demand can only be selected with the Native Interval Length. [Un-check Convert to Demand if Hourly data is desired]");}
@@ -263,13 +279,23 @@ def export_data(list_of_4, browser, ngrid):
     browser.execute_script('''document.frmEPO.submit();''')
 
     browser.implicitly_wait(20)
-    link = browser.find_element_by_partial_link_text('Hourly Data File')
+    link = browser.find_element_by_partial_link_text('Hourly Data File') 
+    url = link.get_attribute('href')
+    
+    url = urlparse(url)
+    path = url.path
+
+    url_split = path.split('/')
+    file = url_split[len(url_split) - 1]  
+
     link.click()
     browser.implicitly_wait(5)
-    print('downloaded EPO data file.')
+    print('downloaded EPO data file {}.'.format(file))
     
     browser.back()
     browser.back()
     
     for item in list_of_4:
         check_the_box(item, browser)
+     
+    return(file)
