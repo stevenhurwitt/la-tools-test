@@ -17,7 +17,12 @@ import os
 base = os.getcwd()
 
 def read_logins(file):
-    good = pd.read_excel('email_bodies_10_11_2019.xlsx')
+    
+    try:
+        good = pd.read_excel(file)
+    except:
+        good = file
+        
     accts = [ast.literal_eval(a) for a in good.accts]
     output = []
 
@@ -26,17 +31,37 @@ def read_logins(file):
         groups = math.ceil(n // 4)
         old_row = [('date', good.date[i]), ('name', good.name[i]), ('user', good.user[i]), ('pw', good.pw[i]), ('util', good.util[i])]
     
-        if groups > 1:
-            for group in range(0, groups):
-                new_acct = ('accts', row[group*4:(group + 1)*4])
-                old_row.append(new_acct)
+        if (groups > 0) and (n % 4 != 0):
             
+            for group in range(0, groups + 1):
+                
+                start = group*4
+                end = (group + 1)*4
+                temp_acct = row[start:end]
+                
+                new_acct = ('accts', temp_acct)
+                old_row.append(new_acct)
+                output.append(dict(old_row))
+        
+        elif (groups > 0) and (n % 4 == 0):
+            
+            for group in range(0, groups):
+                
+                start = group*4
+                end = (group + 1)*4
+                temp_acct = row[start:end]
+                
+                new_acct = ('accts', temp_acct)
+                old_row.append(new_acct)
+                output.append(dict(old_row))
+                
         else:
             new_acct = ('accts', row)
             old_row.append(new_acct)
+            output.append(dict(old_row))
         
-        output.append(dict(old_row))
-        
+        #output.append(dict(old_row))
+    
     output_df = pd.DataFrame(output)
     output_df = output_df[['accts', 'date', 'name', 'user', 'pw', 'util']]
     return(output_df)
@@ -44,12 +69,17 @@ def read_logins(file):
 def past_days(good, n):
     
     good['date'] = pd.to_datetime(good['date'])
-    past = dt.datetime.today() - dt.timedelta(days = 3)
+    past = dt.datetime.today() - dt.timedelta(days = n)
     past_good = good.iloc[[d > past for d in good.date],:]
     past_good.reset_index(drop = True, inplace = True)
     return(past_good)
 
 def acct_match(table_acct, str_acct):
+    parse = table_acct.split(' ')
+    
+    if len(parse) > 1:
+        table_acct = ''.join(parse)
+        
     return((table_acct in str_acct) or (str_acct in table_acct))
 
 def big_match(str_acct, table):
@@ -230,7 +260,9 @@ def idr_download(row, good):
     #get EPO AID value for every account
     print('trying search & download...')
     print('')
+    
     for accts in accts_to_find:
+        
         results = big_match(accts, table)
         AIDs.append(results[0])
  
