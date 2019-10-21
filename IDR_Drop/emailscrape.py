@@ -4,6 +4,8 @@ import datetime as dt
 import pprint
 import json
 
+basepath = os.getcwd()
+
 def flatten(l):
     out = []
     for item in l:
@@ -326,6 +328,8 @@ def get_emails():
 
     print('writing .json object')
     
+    os.chdir(os.path.join(basepath, 'Logins'))
+    
     with open(json_name, 'w') as f:
         json.dump(lame_json, f)
     
@@ -382,8 +386,18 @@ def bodies_json(bodies):
 
 
 def main():
+    
+    os.chdir(os.path.join(basepath, 'Logins'))
     output_dict, filename = get_emails()
     print('file saved as', filename)
-    return(output_dict)
+    
+    with open(filename, 'r') as emails:
+        emails = json.load(emails)
+        emails = json.loads(emails)
+
+    excel_emails = bodies_json(emails)
+    excel_emails.to_excel('email_logins.xlsx')
+    print('converted json to xlsx, wrote {}.'.format('email_logins.xlsx'))
+    
 
 main()
