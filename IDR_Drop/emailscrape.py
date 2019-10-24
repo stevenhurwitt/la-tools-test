@@ -3,6 +3,7 @@ import pandas as pd
 import datetime as dt
 import pprint
 import json
+import os
 
 basepath = os.getcwd()
 
@@ -387,17 +388,53 @@ def bodies_json(bodies):
 
 def main():
     
+    #scrape emails, save json of records
     os.chdir(os.path.join(basepath, 'Logins'))
     output_dict, filename = get_emails()
     print('file saved as', filename)
     
-    with open(filename, 'r') as emails:
-        emails = json.load(emails)
-        emails = json.loads(emails)
-
-    excel_emails = bodies_json(emails)
-    excel_emails.to_excel('email_logins.xlsx')
-    print('converted json to xlsx, wrote {}.'.format('email_logins.xlsx'))
+    #json to df
+    email_df = pd.DataFrame.from_dict(output_dict)
+    email_df = email_df.T
     
+    #get accounts per row
+    expand_acct = []
+    rest = []
+
+    for i, acct in enumerate(email_df.accts):
+        for a in acct:
+            ba = a.split('_')
+            
+            if len(ba) > 1:
+                a = ba[0]
+            expand_acct.append(a)
+            rest.append(email_df.iloc[i,0:])
+            
+    new_email = pd.DataFrame(rest)
+    new_email.reset_index(drop = True, inplace = True)
+    new_email['acct'] = expand_acct
+    
+    #get utility
+    util = []
+
+    for a in new_email.acct:
+        leading = a[:2]
+        if leading == '80':
+            util.append('PSNH')
+        elif leading == '51':
+            util.append('CLP')
+        elif leading == '54':
+            util.append('WMECO')
+        else:
+            util.append('NSTAR_NGRID')
+        
+    new_email['util'] = util
+    
+    test = [(u == 'CLP' or u == 'WMECO') for u in new_email.util]
+    eversource = new_email[test].reset_index(drop = True)
+    
+    print('writing output files.')
+    eversource.to_csv('eversource_logins.csv', index = False)
+    new_email.to_excel('email_logins.xlsx', index = False)
 
 main()
