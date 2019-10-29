@@ -40,12 +40,18 @@ def raw_split(filedf, readdir, writedir, utility, accts):
     for name in account:
         sub = filedf.loc[filedf.Account == name,:].reset_index(drop = True)
         
-        ldc_match = [(str(name) in a) for a in accts]
-        index = np.where(ldc_match)[0][0]
+        try:
+            ldc_match = [(str(name) in a) for a in accts]
+            index = np.where(ldc_match)[0][0]
         
         
-        ldc = str(accts[index])
-        acct_id = '_'.join([utility, ldc])
+            ldc = str(accts[index])
+            acct_id = '_'.join([utility, ldc])
+            
+        except:
+            ldc = str(name.split(' ')[0])
+            acct_id = '_'.join([utility, ldc])
+        
         
         write_name = ''.join([acct_id, "_IDR_RAW.csv"])
         
