@@ -3,8 +3,8 @@ import os
 
 import httplib2
 from googleapiclient import discovery
-from oauth2client import GOOGLE_TOKEN_URI
-from oauth2client.client import GoogleCredentials, OAuth2Credentials
+#from oauth2client import GOOGLE_TOKEN_URI
+#from oauth2client.client import GoogleCredentials, OAuth2Credentials
 
 from energyworx_client.auth import SCOPES
 
