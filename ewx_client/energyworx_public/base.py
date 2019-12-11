@@ -24,12 +24,12 @@ class Property(object):
         return value
 
     def __set__(self, inst, value):
-        if value is None or isinstance(value, basestring) and value == '':
+        if value is None or isinstance(value, str) and value == '':
             value = self._get_default()
         setattr(inst, self._get_attr_name(), value)
 
     def _get_attr_name(self):
-        return '_' + self.attr_name
+        return '_' + self.name
 
     def _get_default(self):
         return self.default if self.default is not None else ([] if self.repeated else None)
