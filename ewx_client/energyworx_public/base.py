@@ -124,6 +124,7 @@ class EnergyworxDomain(object):
         """
         kwargs = {}
         for prop_name, value in message.items():
+            print(prop_name, value)
             logger.debug('property {prop_name}, value: {value}'.format(prop_name=prop_name, value=value))
             attr = cls.attr_by_prop_name.get(prop_name) or (super(cls, cls).attr_by_prop_name.get(prop_name))
             if not attr:
