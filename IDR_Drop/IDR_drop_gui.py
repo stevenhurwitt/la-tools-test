@@ -21,8 +21,9 @@ import json
 import math
 import time
 import ast
+import sys
 import pprint
-from PyQt5.QtWidgets import QApplication, QLabel, QTableView, QMainWindow, QFrame, QPushButton, QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QTableView, QMainWindow, QFrame, QPushButton, QTableWidget, QTableWidgetItem
 from PyQt5 import QtCore, QtGui
 
 Qt = QtCore.Qt
@@ -58,13 +59,24 @@ for a in email_df.accts:
         util.append('NSTAR_NGRID')
         
 email_df['util'] = util
+
+recent = max(email_df.date) - dt.timedelta(days = 31)
+email_df = email_df[[d > recent for d in email_df.date]]
+
 n = email_df.shape[0]
+p = email_df.shape[1]
+
+col1 = email_df.accts
+col2 = email_df.date
+col3 = email_df.name
+col4 = email_df.pw
+col5 = email_df.user
 
 ### show downloads, filter
 readpath = os.path.join(basepath, 'Downloads')
 writepath = os.path.join(basepath, 'Raw_IDR')
 
-rawfiles = IDRdrop.show_dir(readpath, 20)
+#rawfiles = IDRdrop.show_dir(readpath, 20)
 
 #### populate table w df
 
@@ -93,42 +105,77 @@ rawfiles = IDRdrop.show_dir(readpath, 20)
             return self._data.columns[col]
         return None"""
 
-class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
-        QMainWindow.__init__(self,parent)
-        self.table = QTableWidget()
-        self.table.setColumnCount(3)
-        self.setCentralWidget(self.table)
-        data1 = ['row1','row2','row3','row4']
-        data2 = ['1','2.0','3.00000001','3.9999999']
+class App(QWidget):
 
-        self.table.setRowCount(4)
+    def __init__(self):
+        super().__init__()
+        self.title = 'NEPOOL IDR Drop'
+        self.left = 0
+        self.top = 0
+        self.width = 1080
+        self.height = 920
+        self.initUI()
+        
+    def initUI(self):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        
+        self.createTable()
 
-        for index in range(4):
+        # Add box layout, add table to box layout and add box layout to widget
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(self.tableWidget) 
+        self.setLayout(self.layout) 
+
+        # Show widget
+        self.show()
+
+    def createTable(self):
+       # Create table
+        self.tableWidget = QTableWidget()
+        self.tableWidget.setRowCount(n)
+        self.tableWidget.setColumnCount(p+1)
+
+        for index in range(n):
+            item1 = QTableWidgetItem(col1[index])
+            self.table.setItem(index,0,item1)
+            item2 = QTableWidgetItem(col2[index])
+            self.table.setItem(index,1,item2)
+            item3 = QTableWidgetItem(col3[index])
+            self.table.setItem(index,2,item3)
+            item4 = QTableWidgetItem(col4[index])
+            self.table.setItem(index,3,item4)
+            item5 = QTableWidgetItem(col5[index])
+            self.table.setItem(index,4,item5)
+
+            self.btn_sell = QPushButton('Download')
+            self.btn_sell.clicked.connect(self.handleButtonClicked)
+            self.table.setCellWidget(index,5,self.btn_sell)
+
+
+        # table selection change
+        """for index in range(4):
             item1 = QTableWidgetItem(data1[index])
             self.table.setItem(index,0,item1)
             item2 = QTableWidgetItem(data2[index])
             self.table.setItem(index,1,item2)
             self.btn_sell = QPushButton('Edit')
             self.btn_sell.clicked.connect(self.handleButtonClicked)
-            self.table.setCellWidget(index,2,self.btn_sell)
+            self.table.setCellWidget(index,2,self.btn_sell)"""
 
     def handleButtonClicked(self):
         button = QtGui.qApp.focusWidget()
         # or button = self.sender()
         index = self.table.indexAt(button.pos())
         if index.isValid():
-            print(index.row(), index.column())"""
+            EPOwebscrape.idr_download(index.row(), email_df)
 
-## populate logins
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = App()
+    sys.exit(app.exec_())
 
-#model = MainWindow()
-model = PandasModel(email_df)
-#model.setHorizontalHeaderLabels(['IDR Drop'])
-#header = model.horizontalHeader()
-view = QTableView()
-#view = QTableWidget()
-view.setModel(model)
+
 
 #add download button
 def handleButtonClicked(row):
@@ -137,7 +184,7 @@ def handleButtonClicked(row):
 
 
 ## download idr
-files = []
+"""files = []
 for row in range(0, len(email_df.accts)):
     f = EPOwebscrape.idr_download(row, email_df)
     files.append(f)
@@ -149,7 +196,7 @@ for row in range(0, len(email_df.accts)):
 
 email_df['files'] = files"""
 
-model = MainWindow()
+"""model = MainWindow()
 #model = PandasModel(email_df)
 #model.setHorizontalHeaderLabels(['IDR Drop'])
 #header = model.horizontalHeader()
@@ -167,4 +214,4 @@ win.resize(w,h)
 #btn_sell.show()
 win.show()
 view.show()
-app.exec_()
+app.exec_()"""
