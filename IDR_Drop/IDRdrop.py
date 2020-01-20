@@ -2,6 +2,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import ast
 import os
 
 #function to show top n files in directory sorted by date modified
@@ -29,7 +30,7 @@ def show_dir(path, n):
 
 #function to take file from EPO in readdir of meters in utility
 #splits a downloaded csv from EPO into raw meter IDR files
-def raw_split(filedf, readdir, writedir, utility):
+def raw_split(filedf, readdir, writedir, utility, accts):
 
     account = filedf.Account.unique()
     fail = []
@@ -39,10 +40,21 @@ def raw_split(filedf, readdir, writedir, utility):
     for name in account:
         sub = filedf.loc[filedf.Account == name,:].reset_index(drop = True)
         
-        ldc = name.split(' ')[0]
-        acct_id = '_'.join([ldc, utility])
+        if accts:
+            ldc_match = [(str(name) in a) for a in accts]
+            index = np.where(ldc_match)[0][0]
+        
+            ldc = str(accts[index])
+            acct_id = '_'.join([utility, ldc])
+            
+        else:
+            ldc = str(name).split(' ')[0]
+            acct_id = '_'.join([utility, ldc])
+        
         
         write_name = ''.join([acct_id, "_IDR_RAW.csv"])
+        
+        #write_name = fname
         
         if write_name not in os.listdir(writedir):
             
@@ -72,12 +84,22 @@ def filemerge(df1, df2):
     if fd1 < fd2:
         new_dat = pd.concat([df1, df2], ignore_index = True)
         date_count = new_dat.groupby('Date').agg('count').sum(axis = 1)
-        print('spot check output file at date ', date_count.idxmax())
+        print('spot check output file at date {}.'.format(date_count.idxmax()))
     
     elif fd1 > fd2:
         new_dat = pd.concat([df2, df1], ignore_index = True)
         date_count = new_dat.groupby('Date').agg('count').sum(axis = 1)
-        print('spot check output file at date ', date_count.idxmax())
+        maxd = date_count.idxmax()
+        
+        agg_dates = new_dat[new_dat.Date == maxd].iloc[:,4:].sum(axis = 0)
+        keep = np.where(new_dat.Date == maxd)[0][0]
+        drop = np.where(new_dat.Date == maxd)[0][1]
+        
+        new_dat.iloc[keep, 4:] = agg_dates
+        new_dat.drop_duplicates(['Date'], keep = 'first', inplace = True)
+        new_dat.reset_index(drop = True, inplace = True)
+        
+        print('overlap removed at {}, for file:'.format(maxd))
         
     return new_dat
 
@@ -186,6 +208,8 @@ def hor_to_vert(file):
     new_dt = [a.replace('24:00', '00:00') for a in dt_ind]
     new_f.set_index(pd.to_datetime(new_dt), drop = True, inplace = True)
     new_f.sort_index(axis = 0, inplace = True)
+    new_f.interpolate(axis = 0, method = 'linear', limit = 7, inplace = True)
+    
     
     og = file.split('.')
     new_name = ''.join([og[0], '_vert', '.csv'])

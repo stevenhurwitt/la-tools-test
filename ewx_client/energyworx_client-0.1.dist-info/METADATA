@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: energyworx-client
+Version: 0.1
+Summary: Energyworx Client for Datalab
+Home-page: http://www.energyworx.com
+Author: Edwin Poot
+Author-email: edwin.poot@energyworx.org
+License: Copyrighted private source
+Platform: UNKNOWN
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Environment :: Datalab
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+
+UNKNOWN
+
+
