@@ -186,13 +186,16 @@ def iter_mail(sender_func, mailbox, index):
     #start iterating through emails
     mail = mailbox.GetLast()
     i = index
-    
-    msg_row = sender_func(mail.Body)
-    msg_row.append(('date', str_to_date(mail.ReceivedTime)))
+    try:
+        msg_row = sender_func(mail.Body)
+        msg_row.append(('date', str_to_date(mail.ReceivedTime)))
 
-    master = [(i, dict(msg_row))]
+        master = [(i, dict(msg_row))]
     
-    i += 1
+        i += 1
+    
+    except:
+        master = []
    
     while mail:
         
