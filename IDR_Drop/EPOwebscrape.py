@@ -173,7 +173,7 @@ def logon(username, pw, ngrid):
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = 'C:\\bin\\chromerdriver.exe', options = opts)
+    browser = Chrome(executable_path = 'C:\\Users\\wb5888\\Documents\\la-tools-test\\IDR_Drop\\chromerdriver.exe', options = opts)
     
     def enable_download_headless(browser,download_dir):
         browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
