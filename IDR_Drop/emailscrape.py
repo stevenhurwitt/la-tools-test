@@ -4,6 +4,9 @@ import datetime as dt
 import pprint
 import json
 import os
+import pprint
+
+pp = pprint.PrettyPrinter(1)
 
 basepath = os.getcwd()
 
@@ -190,6 +193,7 @@ def iter_mail(sender_func, mailbox, index):
         msg_row = sender_func(mail.Body)
         msg_row.append(('date', str_to_date(mail.ReceivedTime)))
 
+        pp.pprint(dict(msg_row))
         master = [(i, dict(msg_row))]
     
         i += 1
@@ -206,6 +210,7 @@ def iter_mail(sender_func, mailbox, index):
             msg_row.append(('date', str_to_date(mail.ReceivedTime)))
             
             msg_row = dict(msg_row)
+            pp.pprint(msg_row)
 
             new = (i, msg_row)
         

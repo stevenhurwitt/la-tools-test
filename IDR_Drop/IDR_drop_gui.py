@@ -1,6 +1,6 @@
 import os
-#basepath = 'C:\\Users\wb5888\la-tools-test\IDR_Drop'
-basepath = '/home/steven/la-tools-test/IDR_Drop'
+basepath = 'C:\\Users\wb5888\Documents\la-tools-test\IDR_Drop'
+#basepath = '/home/steven/la-tools-test/IDR_Drop'
 os.chdir(basepath)
 print('working in directory {}.'.format(basepath))
 
@@ -25,12 +25,15 @@ import sys
 import pprint
 from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QTableView, QMainWindow, QFrame, QPushButton, QTableWidget, QTableWidgetItem
 from PyQt5 import QtCore, QtGui
+import PyQt5
 
-Qt = QtCore.Qt
+print('imported modules successfully.')
+
+Qt = PyQt5.QtCore.Qt
 pp = pprint.PrettyPrinter(1)
 os.chdir(os.path.join(basepath, 'Logins'))
 
-app = QApplication([])
+app = PyQt5.QtWidgets.QApplication([])
 
 ## get login info
 
@@ -80,7 +83,7 @@ writepath = os.path.join(basepath, 'Raw_IDR')
 
 #### populate table w df
 
-"""class PandasModel(QtCore.QAbstractTableModel):
+class PandasModel(QtCore.QAbstractTableModel):
     
     #Class to populate a table view with a pandas dataframe
     
@@ -103,9 +106,9 @@ writepath = os.path.join(basepath, 'Raw_IDR')
     def headerData(self, col, orientation, role):
         if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
             return self._data.columns[col]
-        return None"""
+        return None
 
-class App(QWidget):
+"""class App(PyQt5.QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
@@ -132,48 +135,48 @@ class App(QWidget):
 
     def createTable(self):
        # Create table
-        self.tableWidget = QTableWidget()
+        self.tableWidget = PyQt5.QtWidgets.QTableWidget()
         self.tableWidget.setRowCount(n)
         self.tableWidget.setColumnCount(p+1)
 
         for index in range(n):
-            item1 = QTableWidgetItem(col1[index])
+            item1 = PyQt5.QtWidgets.QTableWidgetItem(col1[index])
             self.table.setItem(index,0,item1)
-            item2 = QTableWidgetItem(col2[index])
+            item2 = PyQt5.QtWidgets.QTableWidgetItem(col2[index])
             self.table.setItem(index,1,item2)
-            item3 = QTableWidgetItem(col3[index])
+            item3 = PyQt5.QtWidgets.QTableWidgetItem(col3[index])
             self.table.setItem(index,2,item3)
-            item4 = QTableWidgetItem(col4[index])
+            item4 = PyQt5.QtWidgets.QTableWidgetItem(col4[index])
             self.table.setItem(index,3,item4)
-            item5 = QTableWidgetItem(col5[index])
+            item5 = PyQt5.QtWidgets.QTableWidgetItem(col5[index])
             self.table.setItem(index,4,item5)
 
-            self.btn_sell = QPushButton('Download')
+            self.btn_sell = PyQt5.QtWidgets.QPushButton('Download')
             self.btn_sell.clicked.connect(self.handleButtonClicked)
             self.table.setCellWidget(index,5,self.btn_sell)
 
 
         # table selection change
-        """for index in range(4):
+        for index in range(4):
             item1 = QTableWidgetItem(data1[index])
             self.table.setItem(index,0,item1)
             item2 = QTableWidgetItem(data2[index])
             self.table.setItem(index,1,item2)
             self.btn_sell = QPushButton('Edit')
             self.btn_sell.clicked.connect(self.handleButtonClicked)
-            self.table.setCellWidget(index,2,self.btn_sell)"""
+            self.table.setCellWidget(index,2,self.btn_sell)
 
     def handleButtonClicked(self):
-        button = QtGui.qApp.focusWidget()
+        button = PyQt5.QtGui.qApp.focusWidget()
         # or button = self.sender()
         index = self.table.indexAt(button.pos())
         if index.isValid():
-            EPOwebscrape.idr_download(index.row(), email_df)
+            EPOwebscrape.idr_download(index.row(), email_df)"""
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
+"""if __name__ == '__main__':
+    app = PyQt5.QtWidgets.QApplication(sys.argv)
     ex = App()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())"""
 
 
 
@@ -196,22 +199,22 @@ for row in range(0, len(email_df.accts)):
 
 email_df['files'] = files"""
 
-"""model = MainWindow()
-#model = PandasModel(email_df)
+#model = MainWindow()
+model = PandasModel(email_df)
 #model.setHorizontalHeaderLabels(['IDR Drop'])
 #header = model.horizontalHeader()
-#view = QTableView()
-view = QTableWidget()
+view = QTableView()
+#view = QTableWidget()
 view.setModel(model)
 
 ## set window/frame
 w = 1080
 h = 920
-#frame = QFrame()
+frame = QFrame()
 win = QMainWindow()
 win.setCentralWidget(view)
 win.resize(w,h)
 #btn_sell.show()
 win.show()
 view.show()
-app.exec_()"""
+app.exec_()
