@@ -160,7 +160,7 @@ def logon(username, pw, ngrid):
     opts.add_argument('--ignore-certificate-errors')
     opts.add_argument('--start-maximized')
     opts.add_argument('--disable-dev-shm-usage')
-    opts.binary_location = '/usr/bin/google-chrome-stable'
+    #opts.binary_location = '/usr/bin/google-chrome-stable'
     download_path = '/home/jupyter-stevenhurwitt/la-tools-test/IDR_Drop/Downloads'
     prefs = {
                 'download.default_directory': download_path,
@@ -173,7 +173,7 @@ def logon(username, pw, ngrid):
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/home/jupyter-stevenhurwitt/la-tools-test/IDR_Drop/chromedriver', options = opts)
+    browser = Chrome(executable_path = 'C:\\Users\\wb5888\\Documents\\la-tools-test\\IDR_Drop\\chromedriver.exe', options = opts)
     
     def enable_download_headless(browser,download_dir):
         browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
