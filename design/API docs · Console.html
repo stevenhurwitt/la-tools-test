@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://console.cloud.energyworx.com/apidocs -->
+<html lang="en" ng-app="console" class="ng-scope"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css" data-tag-name="trix-editor">trix-editor {
+  display: block;
+}
+
+trix-editor:empty:not(:focus)::before {
+  content: attr(placeholder);
+  color: graytext;
+  cursor: text;
+}
+
+trix-editor a[contenteditable=false] {
+  cursor: text;
+}
+
+trix-editor img {
+  max-width: 100%;
+  height: auto;
+}
+
+trix-editor [data-trix-attachment] figcaption textarea {
+  resize: none;
+}
+
+trix-editor [data-trix-attachment] figcaption textarea.trix-autoresize-clone {
+  position: absolute;
+  left: -9999px;
+  max-height: 0px;
+}
+
+trix-editor [data-trix-attachment] figcaption[data-trix-placeholder]:empty::before {
+  content: attr(data-trix-placeholder);
+  color: graytext;
+}
+
+trix-editor [data-trix-cursor-target] {
+  display: inline-block !important;
+  width: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+trix-editor [data-trix-cursor-target=left] {
+  vertical-align: top !important;
+  margin-left: -1px !important;
+}
+
+trix-editor [data-trix-cursor-target=right] {
+  vertical-align: bottom !important;
+  margin-right: -1px !important;
+}</style><style type="text/css" data-tag-name="trix-toolbar">trix-toolbar {
+  display: block;
+}
+
+trix-toolbar {
+  white-space: nowrap;
+}
+
+trix-toolbar [data-trix-dialog] {
+  display: none;
+}
+
+trix-toolbar [data-trix-dialog][data-trix-active] {
+  display: block;
+}
+
+trix-toolbar [data-trix-dialog] [data-trix-validate]:invalid {
+  background-color: #ffdddd;
+}</style><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <title ng-bind="title" class="ng-binding">API docs · Console</title>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#f6f6f6">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#f6f6f6">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f6f6f6">
+    <!--<base href="/">--><base href=".">
+    <link rel="shortcut icon" href="https://console.cloud.energyworx.com/console/content/images/branding/energyworx/favicon.ico" type="image/x-icon">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="./API docs · Console_files/console.css">
+    <!-- endinject -->
+    <script async="" src="./API docs · Console_files/analytics.js"></script><script type="application/javascript">
+        // the next 2 variables are using in the swagger-ui-bundle.js DO NOT REMOVE OR CHANGE THE VARIABLE NAME!
+        var bearer_token = 'Bearer ya29.a0Adw1xeX40Sll9vi6yingsoc3Aiysrc0ert6WmSKPQSUhn4EKauTG4IbBf22LYD0Yb7e7h5QluVj0Rt4vsc-O6nKU12GOLT0XysPdegPCmR12TJFxSllK4r_WQATXu1ah4r5sj9Yn1FW3xD0j3yP5sOgz-YFn6Ki12js';
+        var bearer_header = '"Authorization: '+bearer_token+'"';
+        var active_namespace_id = 'na.engie.com';
+        var uploadUri = '';
+        
+        var avatar_url = 'https://lh4.googleusercontent.com/-11HvE0chTJs/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfJ5FSiEgcy4KTY3mBaVMSKY6q4Og/s96-c/photo.jpg';
+        var auth_fullname = 'steven hurwitt';
+        var auth_email = 'steven.hurwitt@external.engie.com';
+        var auth_domain = 'na.engie.com';
+        var iss = 'https://accounts.google.com';
+    </script>
+<style>img.chromoji { width:1.2em !important; height:1.2em !important; }.chromoji-font, #chromoji-font { font-size:1.2em !important; }</style></head>
+<body route-class="" data-creation-date="Tue Feb 25 2020 10:58:57 GMT+0000 (UTC)" data-branch="remotes/origin/master" class="ng-isolate-scope">
+<!-- ngInclude: 'content/console.html' --><div ng-include="&#39;content/console.html&#39;" class="ng-scope" style=""><div class="page-container ng-scope is-open-nav" ng-class="{&#39;is-open-nav&#39; : navOpen, &#39;is-open-sheet&#39; : sheetOpen}" ng-controller="CoreController">
+    <!-- uiView: main --><main ui-view="main" class="ng-scope" style=""><div class="sidebar ng-scope"><nav class="navigation is-open" tabindex="-1" ng-class="{&#39;is-open&#39; : navOpen}" navigation=""><a class="navigation__header" ui-sref="console.dashboard" ui-sref-active="is-active" href="https://console.cloud.energyworx.com/dashboard"><img class="navigation__logo" src="./API docs · Console_files/logo.svg" alt="Energyworx"> </a><button class="navigation__toggle hamburger hamburger--squeeze is-active" type="button" ng-click="navigationCtrl.navToggle()" ng-class="{&#39;is-active&#39;: navOpen}"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button><!-- Placeholder Loading State --><!-- ngIf: checkingPermissions --><!-- Navigation content --><!-- ngIf: !checkingPermissions --><div class="navigation__content ng-scope" ng-if="!checkingPermissions"><h2 class="navigation__section ng-scope" translate="navigation.group.main">Main</h2><ul class="navigation__collection"><li class="navigation__item"><a ui-sref="console.dashboard" ui-sref-active="is-active" class="navigation__link ng-scope" translate="navigation.item.dashboard" href="https://console.cloud.energyworx.com/dashboard">Dashboard</a></li><!-- ngIf: navigationCtrl.favoriteTaskFlow --><li class="navigation__item" permission="{&#39;resource&#39;: &#39;datasource&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a href="https://console.cloud.energyworx.com/" class="navigation__link is-expandable ng-scope" ng-class="{&#39;is-expanded&#39; : navigationCtrl.navItemState.datasources}" translate="navigation.item.search" ng-click="navigationCtrl.toggleNavItem(&#39;datasources&#39;)">Search</a><ul class="navigation__sub-collection ng-hide" ng-show="navigationCtrl.navItemState.datasources" ng-class="{&#39;is-open&#39; : navigationCtrl.navItemState.datasources}"><li class="navigation__sub-item"><a ui-sref="console.datasources" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.searchDatasources" href="https://console.cloud.energyworx.com/datasources">Search Datasources</a></li><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;query&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.advanced-search" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.advancedSearch" href="https://console.cloud.energyworx.com/advanced-search/">Advanced Search</a></li></ul></li><li class="navigation__item" permission="{&#39;resource&#39;: &#39;runconfig&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a href="https://console.cloud.energyworx.com/" class="navigation__link is-expandable ng-scope" translate="navigation.item.flowManagement" ng-class="{&#39;is-expanded&#39; : navigationCtrl.navItemState.flowConfiguration}" ng-click="navigationCtrl.toggleNavItem(&#39;flowConfiguration&#39;)">Flow Management</a><ul class="navigation__sub-collection ng-hide" ng-show="navigationCtrl.navItemState.flowConfiguration" ng-class="{&#39;is-open&#39; : navigationCtrl.navItemState.flowConfiguration}"><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;runconfig&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.flow-design" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.flowDesigns" href="https://console.cloud.energyworx.com/flow-management/flow-designs">Flow Designs</a></li><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;rule&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.flow-rules-management" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.rules" href="https://console.cloud.energyworx.com/rule-management/rules">Rules &amp; Algorithms</a></li><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;runconfig&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.search-flows" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.flowSearch" href="https://console.cloud.energyworx.com/search-flows">Search Flows</a></li></ul></li><li class="navigation__item" permission="{&#39;resource&#39;: &#39;integration&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a href="https://console.cloud.energyworx.com/" class="navigation__link is-expandable ng-scope" translate="navigation.item.integration" ng-class="{&#39;is-expanded&#39; : navigationCtrl.navItemState.integration}" ng-click="navigationCtrl.toggleNavItem(&#39;integration&#39;)">Smart Integration</a><ul class="navigation__sub-collection ng-hide" ng-show="navigationCtrl.navItemState.integration" ng-class="{&#39;is-open&#39; : navigationCtrl.navItemState.integration}"><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;datasource&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.channel-classifiers" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.channelClassifiers" href="https://console.cloud.energyworx.com/channel-classifiers">Channel Classifiers</a></li><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;datasource&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.datasources-classifiers" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.datasourceClassifiers" href="https://console.cloud.energyworx.com/datasource-classifiers">Datasource Classifiers</a></li><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;storage&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.file-management" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.fileManagement" href="https://console.cloud.energyworx.com/files/">File Management</a></li><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;marketadapter&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.market-adapters" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.marketAdapters" href="https://console.cloud.energyworx.com/market-adapters">Market Adapters</a></li><li class="navigation__sub-item" permission="{&#39;resource&#39;: &#39;integration&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.tcm({ file: null})" ui-sref-active="is-active" class="navigation__sub-link ng-scope" translate="navigation.item.tcm" href="https://console.cloud.energyworx.com/tcm">Transformation Configurations</a></li></ul></li><!-- ngIf: navigationCtrl.userSettings.beta --><li class="navigation__item" permission="{&#39;resource&#39;: &#39;query&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.audit-events" ui-sref-active="is-active" class="navigation__link ng-scope" translate="navigation.item.auditEvents" href="https://console.cloud.energyworx.com/audit-events">Audit Events</a></li><!--Datalab for Google--><!-- ngIf: !navigationCtrl.microsoftAccount --><li class="navigation__item ng-scope" ng-if="!navigationCtrl.microsoftAccount"><a href="https://datalab.cloud.energyworx.com/" class="navigation__link navigation__link--external ng-scope" target="_blank" translate="navigation.item.datalab">Datalab</a></li><!-- end ngIf: !navigationCtrl.microsoftAccount --><!--Datalab for Microsoft--><!-- ngIf: navigationCtrl.microsoftAccount --></ul><h2 class="navigation__section ng-scope" translate="navigation.group.support">Support</h2><ul class="navigation__collection"><li class="navigation__item" permission="{&#39;resource&#39;: &#39;integration&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><a ui-sref="console.docs" ui-sref-active="is-active" class="navigation__link ng-scope is-active" translate="navigation.item.docs" href="https://console.cloud.energyworx.com/apidocs">API Documentation</a></li><li class="navigation__item"><a href="http://energyworx.support/" class="navigation__link navigation__link--external ng-scope" target="_blank" translate="navigation.item.support">Service Desk</a></li></ul></div><!-- end ngIf: !checkingPermissions --></nav></div><div class="view-wrapper ng-scope"><!-- ngInclude: --><div ng-include="" src="&#39;partials/header.html&#39;" class="ng-scope"><!-- start header partial --><header class="header ng-scope"><div id="top"></div><div class="header__inner"><a class="header__branding" ui-sref="console.dashboard" ui-sref-active="is-active" href="https://console.cloud.energyworx.com/dashboard"><img class="header__branding-logo" src="./API docs · Console_files/logo.svg" alt="Energyworx"></a><div class="header-account" header-account=""><a href="https://console.cloud.energyworx.com/" class="header-account__account-toggle" ng-click="vm.toggleAccountInfo()"><span class="header-account__credentials"><span class="header-account__name"><!-- ngIf: vm.fullname --><span ng-if="vm.fullname" class="ng-binding ng-scope">steven hurwitt</span><!-- end ngIf: vm.fullname --> <!-- ngIf: !vm.fullname --> </span><!-- ngIf: vm.isLoading --> <!-- ngIf: !vm.isLoading --><span class="header-account__name-space ng-binding ng-scope" ng-if="!vm.isLoading">na.engie.com</span><!-- end ngIf: !vm.isLoading --> </span><span class="header-account__avatar "><img ng-src="https://lh4.googleusercontent.com/-11HvE0chTJs/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfJ5FSiEgcy4KTY3mBaVMSKY6q4Og/s96-c/photo.jpg" ng-show="vm.picture" alt="Profile Avatar" src="./API docs · Console_files/photo.jpg" class=""></span></a><!-- ngIf: vm.accountInfo --></div><div class="header__button-group" header-menu=""><a href="https://console.cloud.energyworx.com/" class="header__button tooltip tooltip--90 tooltip--text-center" ng-click="vm.toggleReleaseNotesPanel()" id="headerReleaseNotesButton" permission="{&#39;resource&#39;: &#39;system&#39;, &#39;permission&#39;: &#39;viewer&#39;}"><span class="icon icon-stack2"></span> <span class="header__button-indicator" ng-show="vm.showNewReleaseAlert"><span class="icon icon-checkmark3"></span></span> <span class="tooltip__content tooltip__content--bottom ng-scope" translate="releaseNotes.title">Release Notes</span></a><div class="sheet" id="latestReleaseSheet"><!-- ngIf: vm.showLatesReleaseNote --></div></div><!-- ngIf: $state.current.name === 'console.notebook' --></div></header><!-- end header partial --></div><div class="iframe-wrapper"><iframe ng-src="/docs?namespace=na.engie.com" title="API Docs" src="./API docs · Console_files/docs.html"></iframe></div><!-- ngInclude: --><div ng-include="" src="&#39;partials/footer.html&#39;" class="ng-scope"><!-- startfooter partial --><footer class="page-footer ng-scope"><div class="footer__inner"><div class="footer__legal"></div></div></footer><!-- end footer partial --></div></div></main>
+    <!-- uiView: sheet-right --><sheet ui-view="sheet-right" class="ng-scope"></sheet>
+</div>
+<!-- uiView: modal --><modal ui-view="modal" class="ng-scope"></modal>
+<ewx-feedback-bar id="feedbackBar" class="ng-scope"><div class="feedback-bar" ng-class="{ &#39;feedback-bar--error&#39;: vm.messages.queue[0].type === &#39;error&#39;,  &#39;feedback-bar--informational&#39;: vm.messages.queue[0].type === &#39;informational&#39;  }" ng-attr-aria-hidden="{{ !vm.isVisible() }}" aria-hidden="true"><div class="feedback-bar__inner"><p class="feedback-bar__text"><span ng-bind="vm.messages.queue[0].message" class="ng-binding"></span> <!-- ngIf: vm.queue[0].loading --></p><!-- ngIf: vm.messages.queue[0].closable --></div></div></ewx-feedback-bar>
+</div>
+<!-- deps:js-->
+<!-- endinject -->
+
+<!-- inject:js -->
+<script src="./API docs · Console_files/vendor.all.js"></script>
+<script src="./API docs · Console_files/console.all.js"></script>
+<script src="./API docs · Console_files/console.templates.js"></script>
+<!-- endinject -->
+
+<!-- mockconfig:js -->
+<!-- endinject -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47566317-2', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+</body></html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://console.cloud.energyworx.com/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="https://console.cloud.energyworx.com/console/content/images/branding/energyworx/favicon.ico" type="image/x-icon">
+    <title>Energyworx Console</title>
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,600italic,700,800');
+        html {
+            box-sizing: border-box;
+            background: url(/console/content/images/branding/energyworx/login-background.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+                -o-background-size: cover;
+                    background-size: cover;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        p {
+            max-width: 40em;
+            font-size: 16px;
+            line-height: 1.5em;
+        }
+
+        strong,
+        b {
+            font-weight: 600;
+        }
+
+        em,
+        i {
+            font-style: italic;
+        }
+
+        .float-right {
+            float: right;
+        }
+
+        .login {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            height: 100vh;
+            color: white;
+            font-family: 'Open Sans', 'Arial', sans-serif;
+            animation: fadeIn 1.0s ease-in;
+            -webkit-box-align: center;
+            align-items: center;
+        }
+
+        .login__inner {
+            margin: auto;
+            padding: 10px;
+            max-width: 400px;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .login__inner--signup {
+            max-width: 980px;
+        }
+
+        .login__logo {
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+        .login__logo-wrapper {
+            display: inline-block;
+            margin: auto;
+        }
+
+        .login__logo-title {
+            margin: 0;
+            margin-top: -10px;
+            padding: 0;
+            color: white;
+            text-align: right;
+            letter-spacing: 1.2px;
+            font-weight: 100;
+            font-size: 22px;
+        }
+
+        .login__logo-img {
+            display: block;
+            width: 260px;
+            height: 43px;
+        }
+
+        .login-block {
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            color: #4c5465;
+        }
+
+        .login-block__intro {
+            padding: 20px 30px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            background-color: white;
+        }
+
+        .login-block__intro h1 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 26px;
+        }
+
+        .login-block__intro p {
+            margin: 0.5em 0 0;
+            font-size: 16px;
+        }
+
+        .login-block__providers {
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
+            background-color: #019beb;
+        }
+
+        .login-block__oauth {
+            padding: 40px 25px;
+        }
+
+        .login-block__oauth .button {
+            margin-bottom: 15px;
+        }
+
+        .login-block__oauth .button:last-child {
+            margin-bottom: 0;
+        }
+
+        .login-block__custom-oauth {
+            padding: 25px;
+            border-top: 1px solid rgb(2, 121, 184);
+            text-align: right;
+        }
+
+        .login__footer {
+            padding: 5px 0;
+            color: #ccebfb;
+            text-align: right;
+            font-size: 13px;
+        }
+
+        .login__footer-text {
+            float: left;
+        }
+
+        .login__footer-text a {
+            border-bottom: 1px solid #ccebfb;
+            color: #ccebfb;
+        }
+
+        .login__footer-website {
+            color: #ccebfb;
+        }
+
+        .signup-block {
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            color: #4c5465;
+        }
+
+        @media screen and (min-width: 768px) {
+            .signup-block {
+                display: flex;
+                align-items: stretch;
+            }
+        }
+
+        .signup-block__hero {
+            position: relative;
+            overflow: hidden;
+            background-color: rgba(1, 155, 235, 0.6);
+            color: white;
+        }
+
+        @media screen and (max-width: 768px) {
+            .signup-block__hero {
+                padding: 30px;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .signup-block__hero {
+                padding-top: 30px;
+                padding-left: 30px;
+                width: 320px;
+                border-top-left-radius: 4px;
+                border-bottom-left-radius: 4px;
+            }
+
+            .signup-block__hero:before {
+                position: absolute;
+                bottom: -55%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background-image: url(/console/content/images/branding/energyworx/abstract-console-browser.png);
+                background-position: 180px 380px;
+                background-size: 100%;
+                background-repeat: no-repeat;
+                content: '';
+                -webkit-transform: rotate(-7deg);
+                        transform: rotate(-7deg);
+            }
+        }
+
+        .signup-block__content {
+            background-color: white;
+        }
+
+        @media screen and (max-width: 768px) {
+            .signup-block__content {
+                padding: 20px 30px;
+                border-bottom-right-radius: 4px;
+                border-bottom-left-radius: 4px;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .signup-block__content {
+                padding: 40px 60px;
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+                flex: 1;
+            }
+        }
+
+        .signup-block__content h1 {
+            margin: 0 0 20px 0;
+            font-weight: 600;
+            font-size: 26px;
+        }
+
+        .signup-block__content p {
+            margin: 0.5em 0 20px;
+            font-size: 16px;
+        }
+
+        .signup-block__providers {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .signup-block__oauth {
+            max-width: 366px;
+        }
+
+        .signup-block__oauth .login__button:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        .button {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            padding: 10px 18px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #019beb;
+            box-shadow: 0 1px 1px rgba(30, 26, 46, 0.3);
+            color: white;
+            text-align: left;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 16px;
+            cursor: pointer;
+            transition: all 0.15s ease-in;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .button.is-loading {
+            text-align: center;
+        }
+
+        .button.is-loading .button__text{
+            display: none;
+        }
+
+        .login__button {
+            padding: 0;
+        }
+
+        .button:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(1, 155, 235, 0.6);
+        }
+
+        .button:active {
+            top: 2px;
+        }
+
+        .button--invert {
+            background-color: white;
+            box-shadow: 0 1px 1px rgba(1, 78, 118, 0.35);
+            color: #019beb;
+            -webkit-font-smoothing: auto;
+            -moz-osx-font-smoothing: auto;;
+        }
+
+        .button--invert:focus {
+            box-shadow: 0 0 5px rgba(1, 155, 235, 0.6);
+        }
+
+        .button--full {
+            width: 100%;
+        }
+
+        .button__image {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px;
+            width: 45px;
+            height: 45px;
+            border-right: 1px solid #dfe5e6;
+            background-color: #f6f6f5;
+            vertical-align: middle;
+        }
+
+        .button:hover .button__image {
+            background-color: white;
+        }
+
+        .input-box {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-box__label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .input-box__description {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 16px;
+        }
+
+        .input-box__label--invert {
+            color: white;
+        }
+
+        .text-input {
+            box-sizing: border-box;
+            padding: 0 10px;
+            height: 39px;
+            border: 1px solid rgba(2, 121, 184, 0.8);
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.6);
+            color: #019beb;
+            font-size: 16px;
+            line-height: 16px;
+            transition: all 0.15s ease-in;
+            appearance: none;
+        }
+
+        .text-input:focus {
+            outline: none;
+            background-color: white;
+            box-shadow: 0 0 8px rgba(255,255,255 , 0.8);
+        }
+
+        .text-input--full {
+            width: 100%;
+        }
+
+        .selectbox {
+            position: relative;
+            display: inline-block;
+            max-width: 135px;
+            width: 100%;
+        }
+
+        .selectbox select {
+            display: inline-block;
+            margin: 0;
+            padding: 0 40px 2px 10px;
+            width: 100%;
+            height: 39px;
+            outline: 0;
+            border: 1px solid #019beb;
+            border-radius: 4px;
+            background-color: white;
+            color: #019beb;
+            font-size: 16px;
+            line-height: 30px;
+            cursor: pointer;
+            user-select: none;
+            appearance: none;
+        }
+
+        .checkbox {
+            cursor: pointer;
+        }
+
+        .checkbox__input {
+            position: absolute;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            margin: -1px;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            border: 0;
+        }
+
+        .checkbox__indicator {
+            position: relative;
+            display: inline-block;
+            margin: 2px 4px 0 0;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #019beb;
+            border-radius: 3px;
+            background-color: white;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+        .checkbox__input:focus+.checkbox__indicator {
+            outline: none;
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(rgb(1, 155, 235), 0.6);
+        }
+
+        .checkbox__input:checked+.checkbox__indicator:after {
+            position: absolute;
+            top: 5px;
+            left: 4px;
+            width: 10px;
+            height: 6px;
+            border-bottom: 2px solid #019beb;
+            border-left: 2px solid #019beb;
+            color: #019beb;
+            content: '';
+            transform: rotate(-45deg);
+        }
+
+        .checkbox__label {
+            display: inline-block;
+            width: calc(100% - 40px);
+            vertical-align: middle;
+            font-size: 13px;
+            line-height: 16px;
+        }
+
+        .signed-in {
+            display: block;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+            line-height: 16px;
+        }
+
+        .canvas-container {
+            position: fixed;
+            bottom: -20px;
+            left: -5%;
+            z-index: -1;
+            width: 110%;
+        }
+
+        .dialog {
+            position: relative;
+            display: inline-block;
+            visibility: visible;
+            padding: 15px;
+            border-radius: 4px;
+            background: #019beb;
+            color: white;
+            font-size: 16px;
+            line-height: 1.5em;
+            opacity: 1;
+            -webkit-animation-name: dialogFadeIn;
+                    animation-name: dialogFadeIn;
+            -webkit-animation-duration: 0.2s;
+                    animation-duration: 0.2s;
+            -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-animation-iteration-count: 1;
+                    animation-iteration-count: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;;
+        }
+
+        .dialog--secondary {
+            background: #4c5465;
+            color: white;
+        }
+
+        .dialog--full {
+            max-width: 40em;
+            width: 100%;;
+        }
+
+        .privacy {
+            font-style: italic;
+            font-size: 12px;
+        }
+
+        .back-link {
+            margin-top: 40px;
+            color: #019beb;
+            text-align: right;
+        }
+
+        @media screen and (min-width: 768px) {
+            .back-link {
+                margin-right: -30px;
+                margin-bottom: -20px;
+            }
+        }
+
+        .a {
+            border-bottom: 1px solid #019beb;
+            color: #019beb;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            #canvas1 {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            #canvas2 {
+                display: none;
+            }
+        }
+
+        .loader {
+            animation: bounce-bottom 1.2s ease 0.1s infinite;
+            position: relative;
+            display: none;
+            width: 4px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: white;
+          
+        }
+        .loader:before, .loader:after  { 
+            position: absolute;
+            top: auto;
+            bottom: 0;
+            display: block;
+            width: 4px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: white;
+            content: '';
+        }
+
+        .loader:before {
+            animation: bounce-bottom 1.2s ease 0s infinite;
+            left: -6px
+        }
+
+        .loader:after { 
+            animation: bounce-bottom 1.2s ease 0.2s infinite;
+            left: 6px;
+        }
+
+        .button.is-loading .loader {
+            display: inline-block;
+        }
+
+        fieldset {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes dialogFadeIn {
+            0% {
+                opacity: 0.5;
+                -webkit-transform: scale(0);
+                        transform: scale(0);
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 1;
+                -webkit-transform: scale(1);
+                        transform: scale(1);
+            }
+        }
+
+        @keyframes bounce-bottom {
+            0% {
+                margin-top: 12px - 5px;
+                height: 5px;
+            }
+
+            50% {
+                margin-top: 0;
+                height: 12px;
+            }
+
+            100% {
+                margin-top: 12px - 5px;
+                height: 5px;
+            }
+        }
+    </style>
+<style>img.chromoji { width:1.2em !important; height:1.2em !important; }.chromoji-font, #chromoji-font { font-size:1.2em !important; }</style></head>
+<body>
+    <div class="login">
+        <section class="login__inner" id="signIn">
+            <div class="login__logo">
+                <div class="login__logo-wrapper">
+                    <img class="login__logo-img" src="./Energyworx Console_files/logo.svg" alt="Energyworx Console">
+                    <h2 class="login__logo-title">console</h2>
+                </div>
+            </div>
+            <div class="login-block">
+                <div class="login-block__intro">
+                    
+                    <h1>Welcome</h1>
+                    <p>Sign in to energyworx console.</p>
+                </div>
+                <div class="login-block__providers">
+                    <div class="login-block__oauth">
+                        <a href="https://console.cloud.energyworx.com/login?provider=Google" id="loginGoogle" class="button button--full button--invert login__button">
+                            <span class="button__image">
+                                <img src="./Energyworx Console_files/google.svg" alt="Google Logo">
+                            </span>
+                            <span style="vertical-align:middle">Sign in with Google</span>
+                        </a>
+                        <a href="https://console.cloud.energyworx.com/login?provider=Azure" id="loginMicrosoft" class="button button--full button--invert login__button">
+                            <span class="button__image">
+                                <img src="./Energyworx Console_files/microsoft.svg" alt="Microsoft Logo">
+                            </span>
+                            <span style="vertical-align:middle">Sign in with Microsoft</span>
+                        </a>
+                    </div>
+                    <div class="login-block__custom-oauth hide">
+                        <form>
+                            <div class="input-box">
+                                <label class="input-box__label input-box__label--invert">or sign in via your oauth provider</label>
+                                <div class="input-box__input">
+                                    <input class="text-input text-input--full" placeholder="yourname@email.com" type="email" required="">
+                                </div>
+                            </div>
+                            <button type="submit" class="button button--invert">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="login__footer">
+                <span class="login__footer-text">No account? <a href="https://console.cloud.energyworx.com/?signup=true">Sign up</a></span>
+                <a href="https://www.energyworx.com/" class="login__footer-website">energyworx.com</a>
+            </div>
+        </section>
+        <section class="login__inner login__inner--signup hide" id="signUp">
+            <div class="signup-block">
+                <div class="signup-block__hero">
+                    <div class="login__logo-wrapper">
+                        <img class="login__logo-img" src="./Energyworx Console_files/logo.svg" alt="Energyworx Console">
+                        <h2 class="login__logo-title">signup</h2>
+                    </div>
+                </div>
+                <div class="signup-block__content">
+                    <h1>Register your account</h1>
+                    <p>You can register with a corporate Google or Microsoft account. If you don't have a corporate Google or Microsoft account please contact <a class="a" href="mailto:sales@energyworx.com">sales@energyworx.com</a></p>
+                    <div class="signup-block__providers">
+                        <div class="signup-block__oauth">
+                            <a href="https://console.cloud.energyworx.com/login?provider=Google" id="loginGoogle" class="button button--full button--invert login__button">
+                                <span class="button__image">
+                                    <img src="./Energyworx Console_files/google.svg" alt="Google Logo">
+                                </span>
+                                <span style="vertical-align:middle">Sign up with Google</span>
+                            </a>
+                            <a href="https://console.cloud.energyworx.com/login?provider=Azure" id="loginMicrosoft" class="button button--full button--invert login__button">
+                                <span class="button__image">
+                                    <img src="./Energyworx Console_files/microsoft.svg" alt="Microsoft Logo">
+                                </span>
+                                <span style="vertical-align:middle">Sign up with Microsoft</span>
+                            </a>
+                        </div>
+                    </div>
+                    <small class="privacy">Energyworx respects your <a class="a" href="https://www.energyworx.com/privacy-statement/">privacy</a>. For more information, see our <a class="a" href="https://www.energyworx.com/privacy-statement/">Privacy Policy</a>.</small>
+                    <div class="back-link">
+                        <a class="back-link__link" href="https://console.cloud.energyworx.com/"><img class="chromoji" title="Leftwards Arrow With Hook" alt="↩" src="chrome-extension://cahedbegdkagmcjfolhdlechbkeaieki/images/apple/21a9.png"> Go back</a>
+                    </div>
+                </div>
+            </div>
+            <div class="login__footer">
+                <a href="https://www.energyworx.com/" class="login__footer-link">energyworx.com</a>
+            </div>
+        </section>
+    </div>
+    <div class="canvas-container">
+        <canvas id="canvas1" height="270" width="2862" style="width: 1431px; height: 135px;"></canvas>
+        <canvas id="canvas2" height="0" width="2862" style="width: 1431px; height: 0px;"></canvas>
+    </div>
+    <script async="" src="./Energyworx Console_files/analytics.js"></script><script type="text/javascript" src="./Energyworx Console_files/Chart.min.js"></script>
+    <script>
+        function getUrlParams(prop) {
+            var params = {};
+            var search = decodeURIComponent( window.location.href.slice( window.location.href.indexOf( '?' ) + 1 ) );
+            var definitions = search.split( '&' );
+
+            definitions.forEach( function( val, key ) {
+                var definitionKey = val.split('=')[0];
+                var definitionValue = val.split('=').slice(0).join('=');
+                params[definitionKey] = definitionValue;
+            } );
+
+            return ( prop && prop in params ) ? params[ prop ] : params;
+        }
+
+        function setLayout() {
+            var urlParams;
+            urlParams = getUrlParams();
+            if (urlParams.signup) {
+                var signInElement = document.getElementById('signIn');
+                var signUpElement = document.getElementById('signUp');
+                signInElement.classList.add('hide');
+                signUpElement.classList.remove('hide');
+            }
+        }
+        setLayout();
+
+        function setReturnAddress() {
+            var redirectUrl = getUrlParams('redirect_uri');
+            if (redirectUrl && redirectUrl.length > 0) {
+                var loginGoogle = document.getElementById('loginGoogle');
+                var loginMicrosoft = document.getElementById('loginMicrosoft');
+                var urlToRedirectTo = redirectUrl.split('redirect_uri=').splice(0).join('');
+                if (loginGoogle && loginGoogle.href) {
+                    loginGoogle.href += '&redirect_url=' + urlToRedirectTo;
+                }
+                if (loginMicrosoft && loginMicrosoft.href) {
+                    loginMicrosoft.href += '&redirect_url=' + urlToRedirectTo;
+                }
+            }
+        }
+        setReturnAddress();
+
+        var randomScalingFactor = function () { return Math.round(Math.random() * 60); };
+        var lineChartData = {
+            labels: ["60 sec. ago", "50 sec. ago", "40 sec. ago", "30 sec. ago", "20 sec. ago", "10 sec. ago", "1 sec. ago"],
+            datasets: [
+                {
+                    label: "Series 1",
+                    fillColor: "rgba(1,155,235,0.2)",
+                    strokeColor: "rgba(1,155,235,1)",
+                    pointColor: "#fff",
+                    pointStrokeColor: "rgba(1,155,235,1)",
+                    pointHighlightFill: "rgba(1,155,235,1)",
+                    pointHighlightStroke: "rgba(1,155,235,1)",
+                    data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                },
+                {
+                    label: "Series 2",
+                    fillColor: "rgba(255,88,65,0.2)",
+                    strokeColor: "rgba(255,88,65,1)",
+                    pointColor: "#fff",
+                    pointStrokeColor: "rgba(255,88,65,1)",
+                    pointHighlightFill: "rgba(255,88,65,1)",
+                    pointHighlightStroke: "rgba(255,88,65,1)",
+                    data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                },
+                {
+                    label: "Series 3",
+                    fillColor: "rgba(114,193,38,0.2)",
+                    strokeColor: "rgba(114,193,38,1)",
+                    pointColor: "#fff",
+                    pointStrokeColor: "rgba(114,193,38,1)",
+                    pointHighlightFill: "rgba(114,193,38,1)",
+                    pointHighlightStroke: "rgba(114,193,38,1)",
+                    data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                }
+            ]
+        };
+
+        window.onload = function () {
+            if (document.getElementById("canvas1")) {
+                var ctx = document.getElementById("canvas1").getContext("2d");
+                var ctx2 = document.getElementById("canvas2").getContext("2d");
+
+                window.myLine = new Chart(ctx).Line(lineChartData, {
+                    responsive: true,
+                    showScale: false,
+                    pointDotStrokeWidth: 3,
+                    datasetStrokeWidth: 3,
+                    showTooltips: false
+                });
+                window.myLine = new Chart(ctx2).Line(lineChartData, {
+                    responsive: true,
+                    showScale: false,
+                    pointDotStrokeWidth : 3,
+                    datasetStrokeWidth : 3,
+                    showTooltips: false
+                });
+
+            }
+        };
+
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-47566317-2', 'auto');
+        ga('send', 'pageview', {
+            'page': location.pathname,
+            'title': 'Login Page'
+        });
+    </script>
+
+</body></html>

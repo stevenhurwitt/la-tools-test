@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.keys import Keys
 import selenium.webdriver as webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import pandas as pd
@@ -14,6 +15,7 @@ import math
 import ast
 import os
 
+driver = webdriver.Chrome(ChromeDriverManager().install())
 base = os.getcwd()
 
 def read_logins(file):
@@ -158,10 +160,10 @@ def logon(username, pw, ngrid):
     #opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--ignore-certificate-errors')
-    opts.add_argument('--start-maximized')
+    opts.add_argsument('--start-maximized')
     opts.add_argument('--disable-dev-shm-usage')
     #opts.binary_location = '/usr/bin/google-chrome-stable'
-    download_path = '/home/jupyter-stevenhurwitt/la-tools-test/IDR_Drop/Downloads'
+    download_path = '/home/steven/Documents/la-tools-test/IDR_Drop/Downloads'
     prefs = {
                 'download.default_directory': download_path,
                 'download.prompt_for_download': False,
@@ -173,7 +175,7 @@ def logon(username, pw, ngrid):
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = 'C:\\Users\\wb5888\\Documents\\la-tools-test\\IDR_Drop\\chromedriver.exe', options = opts)
+    browser = Chrome(executable_path = '/home/steven/bin/chromedriver', options = opts)
     
     def enable_download_headless(browser,download_dir):
         browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
@@ -238,13 +240,13 @@ def logon(username, pw, ngrid):
     
     return(browser, url)
 
-def idr_download(row, good):
+def idr_download(user, pw, accts_to_find):
 
-    ngrid = ('SUEZ' in good.user[row])
-    browser, url = logon(good.user[row], good.pw[row], ngrid)
+    ngrid = ('SUEZ' in user)
+    browser, url = logon(user, pw, ngrid)
     print('logging on...')
 
-    accts_to_find = good.accts[row]
+    #accts_to_find = good.accts[row]
     print('looking for {} accts.'.format(len(accts_to_find)))
     AIDs = []
 
