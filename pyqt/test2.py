@@ -12,8 +12,8 @@ class App(QWidget):
         self.title = 'NEPOOL IDR Drop Download'
         self.left = 10
         self.top = 10
-        self.width = 640
-        self.height = 480
+        self.width = 1280
+        self.height = 960
         self.initUI()
     
     def initUI(self):
