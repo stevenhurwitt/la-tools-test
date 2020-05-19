@@ -1,6 +1,6 @@
 import os
-basepath = 'C:\\Users\wb5888\Documents\la-tools-test\IDR_Drop'
-#basepath = '/home/steven/la-tools-test/IDR_Drop'
+#basepath = 'C:\\Users\wb5888\Documents\la-tools-test\IDR_Drop'
+basepath = '/media/steven/big_boi/la-tools-test/IDR_Drop'
 os.chdir(basepath)
 print('working in directory {}.'.format(basepath))
 

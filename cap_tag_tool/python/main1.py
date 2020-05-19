@@ -4,7 +4,7 @@
 #
 # Created By: Jose Alvarez 
 from fbs_runtime.application_context.PyQt5 import ApplicationContext
-import sys, csv, io
+import sys, csv, io, os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtSql import QSqlQuery, QSqlQueryModel
 import pyodbc
@@ -23,6 +23,9 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar)
+
+os.chdir('/media/steven/samsung_t5/la-tools-test/cap_tag_tool/python')
+
 Ui_MainWindow, QMainWindow = loadUiType('window.ui')
 Ui_plotNameDialog, QDialog = loadUiType('plotName.ui')
 Ui_msgDialog, QDialog = loadUiType('messageBox.ui')
@@ -30,7 +33,7 @@ def all_same(items):
     return all(x == items[0] for x in items)
 
 # CONNECTION TO THE ORACLIENT_SQL_SERVER
-cnn = pyodbc.connect('Driver={Oracle in OraClient11g_home1};DBQ=tppe;Uid=azureuser;Pwd=AzureDF512682!')
+#cnn = pyodbc.connect('Driver=/etc/odbcinst.ini;DBQ=tppe;Uid=azureuser;Pwd=AzureDF512682!')
 
 """ (('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous view', 'back', 'back'), ('Forward', 'Forward to next view', 'forward', 'forward'), (None, None, None, None), ('Pan', 'Pan axes with left mouse, zoom with right', 'move', 'pan'), ('Zoom', 'Zoom to rectangle', 'zoom_to_rect', 'zoom'), ('Subplots', 'Configure subplots', 'subplots', 'configure_subplots'), (None, None, None, None), ('Save', 'Save the figure', 'filesave', 'save_figure')) """
 
