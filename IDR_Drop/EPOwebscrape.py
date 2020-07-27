@@ -3,7 +3,10 @@ from selenium.webdriver.chrome.options import Options
 import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.keys import Keys
 import selenium.webdriver as webdriver
-from webdriver_manager.chrome import ChromeDriverManager
+try:
+    from webdriver_manager.chrome import ChromeDriverManager
+except:
+    print('webdriver_manager import error can suck my cock.')
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import pandas as pd
@@ -15,8 +18,8 @@ import math
 import ast
 import os
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
-base = os.getcwd()
+#driver = webdriver.Chrome(ChromeDriverManager().install())
+base = "F:\\la-tools-test\\IDR_Drop"
 
 def read_logins(file):
     
@@ -160,7 +163,7 @@ def logon(username, pw, ngrid):
     #opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--ignore-certificate-errors')
-    opts.add_argsument('--start-maximized')
+    opts.add_argument('--start-maximized')
     opts.add_argument('--disable-dev-shm-usage')
     #opts.binary_location = '/usr/bin/google-chrome-stable'
     download_path = '/media/steven/big_boi/la-tools-test/IDR_Drop/Downloads'
@@ -175,7 +178,7 @@ def logon(username, pw, ngrid):
     #assert opts.headless
 
     #setup headless browser, get ngrid url
-    browser = Chrome(executable_path = '/media/steven/big_boi/la-tools-test/IDR_Drop/chromedriver', options = opts)
+    browser = Chrome(executable_path = 'F:\\la-tools-test\\IDR_Drop\\chromedriver.exe', options = opts)
     
     def enable_download_headless(browser,download_dir):
         browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')

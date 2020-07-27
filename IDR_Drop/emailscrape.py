@@ -8,7 +8,7 @@ import pprint
 
 pp = pprint.PrettyPrinter(1)
 
-basepath = os.getcwd()
+basepath = "F:\\la-tools-test\\IDR_Drop"
 
 def flatten(l):
     out = []
