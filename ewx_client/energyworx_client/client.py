@@ -28,7 +28,7 @@ class EWX(object):
             api_root = DEFAULT_API_ROOT
         self.namespace_id = namespace_id
         self.api_root = api_root
-        logger.info('Using namespace = %s and api_root = %s', namespace_id, api_root)
+        print('Using namespace = {} and api_root = {}'.format(namespace_id, api_root))
         self.client = ExternalService.get_client(api_root=api_root, credentials=credentials)
 
     # ChannelClassifier
