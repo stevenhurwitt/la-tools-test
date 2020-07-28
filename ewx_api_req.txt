@@ -1,8 +1,0 @@
-ewx get flow id
-
-https://ewx-live.appspot.com/_ah/api/ewx/v1/query/execute?priority=interactive&query=SELECT++struct%28timestamp%2C+struct%28flow_id%2C+array%5BSTRUCT%28channel_classifier_id%2C+value%2C+ARRAY%28SELECT+AS+STRUCT+annotation%2C+sequence_id%2C+ARRAY_AGG%28STRUCT%28key%2C+value%29%29%29%29%5D+AS+channel%29+AS+flow%29+AS+row+++++FROM+flows++++++WHERE+timestamp+%3E+%272017-01-09T00%3A00%3A00%27+++++AND+timestamp+%3C%3D+%272020-10-09T17%3A00%3A00%27+++++AND+flow_id+IN+%28%27ffa7c3e82139429095914b60e67cb0e8%27%29+++++GROUP+BY+timestamp%2C+flow_id%2C+channel_classifier_id%2C+value+++++ORDER+BY+timestamp%2C+flow_id+desc&alt=json&limit=999999
-
-
-ewx get datasource
-
-https://ewx-live.appspot.com/_ah/api/ewx/v1/datasource/get/NEPOOL_BECO_26701281052?alt=json

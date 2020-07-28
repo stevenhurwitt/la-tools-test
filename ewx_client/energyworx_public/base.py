@@ -2,6 +2,7 @@ import logging
 
 from dateutil.parser import parse
 from energyworx_public.enums import str_to_enum
+from energyworx_public import domain
 
 logger = logging.getLogger()
 
@@ -85,10 +86,54 @@ class EnergyworxDomainMeta(type):
         attr_by_prop_name = {}
         prop_by_attr = {}
         for attr, value in dct.items():
-            if isinstance(value, Property):
+            """if isinstance(value, Property):
                 setattr(value, 'attr_name', attr)
                 attr_by_prop_name.update({value.name: attr})
-                prop_by_attr.update({attr: value})
+                prop_by_attr.update({attr: value})"""
+            #do normal attr/prop stuff
+            if type(value) != list:
+                value_obj = Property(value)
+                if isinstance(value_obj, Property):
+                    setattr(value_obj, 'attr_name', attr)
+                    attr_by_prop_name.update({value_obj.name: attr})
+                    prop_by_attr.update({attr: value_obj})
+            
+            #make structured props for tags/channels
+            elif type(value) == list:
+                struct_prop = []
+                if attr == 'tags':
+                    for v in value:
+                        struct_prop.append(domain.Tag.from_dict(v))
+                    struct_prop = StructuredProperty(struct_prop)
+        
+                if isinstance(struct_prop, StructuredProperty):
+                    setattr(struct_prop, 'attr_name', attr)
+                    setattr(struct_prop, 'repeated', True)
+                    attr_by_prop_name.update({'tags': attr})
+                    prop_by_attr.update({attr: struct_prop})
+            
+                elif attr == 'channels':
+
+                    for v in value:
+                        new_ch = domain.Channel()
+                        try:
+                            new_ch.description = v['description']
+                        except:
+                            new_ch.description = ''
+                        new_ch.is_source = v['isSource']
+                        new_ch.classifier = v['classifier']
+                        new_ch.unit_type = v['unitType']
+                        new_ch.datapoint_type = v['datapointType']
+                        new_ch.id = v['id']
+                        new_ch.name = v['name']
+                        struct_prop.append(new_ch)
+                    struct_prop = StructuredProperty(struct_prop)
+            
+                    if isinstance(struct_prop, StructuredProperty):
+                        setattr(struct_prop, 'attr_name', attr)
+                        setattr(struct_prop, 'repeated', True)
+                        attr_by_prop_name.update({'channels': attr})
+                        prop_by_attr.update({attr: struct_prop})
 
         if attr_by_prop_name:
             new_class.attr_by_prop_name = attr_by_prop_name
@@ -122,20 +167,26 @@ class EnergyworxDomain(object):
         Returns:
             (EnergyworxDomain): a domain object
         """
+        cls = EnergyworxDomainMeta('EnergyworxDomain', (EnergyworxDomain, ), message)
         kwargs = {}
         for prop_name, value in message.items():
-            print(prop_name, value)
-            logger.debug('property {prop_name}, value: {value}'.format(prop_name=prop_name, value=value))
-            attr = cls.attr_by_prop_name.get(prop_name) or (super(cls, cls).attr_by_prop_name.get(prop_name))
+           
+            #print('property {prop_name}, value: {value}'.format(prop_name=prop_name, value=value))
+            #attr = cls.attr_by_prop_name.get(prop_name) or (super(cls, cls).attr_by_prop_name.get(prop_name))
+            attr = cls.attr_by_prop_name.get(prop_name)
             if not attr:
-                raise AttributeError('Property name {prop_name} can not be mapped to a domain attribute on domain class {class_name}'.format(prop_name=prop_name, class_name=cls.__name__))
-            prop = cls.prop_by_attr.get(attr) or (super(cls, cls).prop_by_attr.get(attr))
+                print('Property name {prop_name} can not be mapped to a domain attribute on domain class {class_name}'.format(prop_name=prop_name, class_name=cls.__name__))
+            #prop = cls.prop_by_attr.get(attr) or (super(cls, cls).prop_by_attr.get(attr))
+            prop = cls.prop_by_attr.get(attr)
             if not prop:
-                raise AttributeError('Attribute {attr_name} can not be mapped to a property instance on domain class {class_name}'.format(attr_name=attr, class_name=cls.__name__))
+                print('Attribute {attr_name} can not be mapped to a property instance on domain class {class_name}'.format(attr_name=attr, class_name=cls.__name__))
 
             if isinstance(prop, StructuredProperty):
                 if prop.repeated:
-                    kwargs.update({attr: [prop.domain_class.from_message(v) for v in value]})
+                    try:
+                        kwargs.update({attr: [prop.domain_class.from_message(v) for v in value]})
+                    except:
+                        print(value)
                 else:
                     kwargs.update({attr: prop.domain_class.from_message(value)})
             elif isinstance(prop, EnumProperty):
@@ -144,7 +195,8 @@ class EnergyworxDomain(object):
                 kwargs.update({attr: parse(value)})
             else:
                 kwargs.update({attr: value})
-        return cls(**kwargs)
+        #return cls(kwargs)
+        return(kwargs)
 
     def to_message(self):
         """
