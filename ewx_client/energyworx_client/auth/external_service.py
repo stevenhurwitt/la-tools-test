@@ -79,13 +79,13 @@ class ExternalService(object):
         Returns:
 
         """
-        logging.debug("Creating {service_name} client".format(service_name=cls.__name__.title()))
+        print("Creating {service_name} client".format(service_name=cls.__name__.title()))
         credentials = ExternalService._get_credentials(credentials)
         http = httplib2.Http(disable_ssl_certificate_validation=True, timeout=http_timeout)
         credentials.authorize(http)
         discovery_url = '%s/discovery/v1/apis/ewx/%s/rest' % (api_root+'/_ah/api',  cls.VERSION)
-        logging.info("Discovering services using %s", discovery_url)
+        print("Discovering services using {}.".format(discovery_url))
         service = discovery.build(cls.__name__.lower(), cls.VERSION, discoveryServiceUrl=discovery_url, http=http)
-        logging.info("Client created")
+        print("Client created")
         return service
 
